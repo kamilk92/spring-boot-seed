@@ -6,9 +6,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class TestRestController {
-
+public abstract class TestRestController {
     public static final Integer APPLICATION_PORT = 8080;
     public static final String APPLICATION_ADDR = "http://localhost:" + APPLICATION_PORT;
-
 }
