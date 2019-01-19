@@ -4,6 +4,7 @@ import org.assertj.core.api.AssertionsForClassTypes;
 import org.dozer.DozerBeanMapper;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.server.LocalServerPort;
 import pl.kkp.core.db.entity.User;
 import pl.kkp.core.testing.SpringBootBaseTest;
 

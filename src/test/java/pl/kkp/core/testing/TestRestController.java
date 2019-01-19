@@ -1,5 +1,6 @@
 package pl.kkp.core.testing;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
@@ -13,15 +14,50 @@ public abstract class TestRestController extends SpringBootBaseTest {
     @Autowired
     protected TestRestTemplate restTemplate;
 
+    protected String endpointBasePathFormat;
+
+    protected TestRestController(String endpointBasePath) {
+        endpointBasePathFormat = buildEndpointBasePathFormat(endpointBasePath);
+    }
+
     protected void assertResponseStatusCode(ResponseEntity response) {
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
+    protected String getEndpointPath(String path) {
+        String endpointBasePath = getEndpointBasePath(this.portNumber);
+        path = buildPath(path);
 
-    protected String getEndpointAddress(String addressPath) {
-        String pathDelimiter = addressPath.startsWith("/") ? "" : "/";
+        return new StringBuilder(endpointBasePath)
+                .append(path)
+                .toString();
+    }
 
-        return APP_ADDRESS + ":" + portNumber + pathDelimiter + addressPath;
+    protected String getEndpointBasePath(Integer port) {
+        return String.format(this.endpointBasePathFormat, port);
+    }
+
+    private String buildEndpointBasePathFormat(String basePath) {
+        basePath = buildPath(basePath);
+        String portNumDelimiter = ":";
+        String portNumFormat = "%d";
+
+        return new StringBuilder(APP_ADDRESS)
+                .append(portNumDelimiter)
+                .append(portNumFormat)
+                .append(basePath)
+                .toString();
+    }
+
+    private String buildPath(String path) {
+        if (path.startsWith("/")) {
+            return path;
+        }
+        if (StringUtils.isNotEmpty(path)) {
+            return "/" + path;
+        }
+
+        return "";
     }
 }

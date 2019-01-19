@@ -12,32 +12,32 @@ public class TestUserRepository extends TestJpa {
     private UserRepository userRepository;
 
     @Test
-    public void isFindUserByName() {
-        String searchedName = "test-admin";
-
-        User foundUser = userRepository.findByLogin(searchedName);
-
-        assertThat(foundUser).isNotNull();
-    }
-
-    @Test
-    public void isCreateNewUser() {
+    public void isCreateNewUserAndThenFindByLogin() {
         Integer id = null;
         String login = "user";
         String password = "pass";
         String nick = "user-nick";
         String email = "user@domain.com";
         boolean isEnabled = true;
-        User user = new User(id, login, password, nick, email, isEnabled);
 
-        User createdUser = userRepository.save(user);
+        User createdUser = saveUser(id, login, password, nick, email, isEnabled);
 
         assertThat(createdUser).isNotNull();
         assertThat(createdUser.getId()).isNotNull();
-        assertThat(createdUser.getLogin()).isEqualTo(user.getLogin());
-        assertThat(createdUser.getPassword()).isEqualTo(user.getPassword());
-        assertThat(createdUser.getNick()).isEqualTo(user.getNick());
-        assertThat(createdUser.getEmail()).isEqualTo(user.getEmail());
-        assertThat(createdUser.getEnabled()).isEqualTo(user.getEnabled());
+        assertThat(createdUser.getLogin()).isEqualTo(login);
+        assertThat(createdUser.getPassword()).isEqualTo(password);
+        assertThat(createdUser.getNick()).isEqualTo(nick);
+        assertThat(createdUser.getEmail()).isEqualTo(email);
+        assertThat(createdUser.getEnabled()).isEqualTo(isEnabled);
+
+        User foundUser = userRepository.findByLogin(login);
+
+        assertThat(foundUser).isEqualTo(createdUser);
+    }
+
+    private User saveUser(Integer id, String login, String password, String nick, String email, Boolean isEnabled) {
+        User user = new User(id, login, password, nick, email, isEnabled);
+
+        return userRepository.save(user);
     }
 }

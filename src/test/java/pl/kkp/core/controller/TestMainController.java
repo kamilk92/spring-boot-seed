@@ -7,10 +7,15 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 public class TestMainController extends TestRestController {
+    private static final String ENDPOINT_PATH = "";
+
+    public TestMainController() {
+        super(ENDPOINT_PATH);
+    }
 
     @Test
     public void isIndexPageResponse() {
-        String endpointPath = getEndpointAddress("");
+        String endpointPath = getEndpointPath("");
         String response = restTemplate.getForObject(endpointPath, String.class);
 
         String expectedResponse = MainController.INDEX_MESSAGE;

@@ -2,10 +2,10 @@ package pl.kkp.core.db.service;
 
 import org.springframework.data.repository.CrudRepository;
 
-public class JpaRepositoryService<T, ID extends Number> {
-    protected CrudRepository<T, ID> entityRepository;
+public abstract class JpaRepositoryService<T, ID extends Number, E extends CrudRepository<T, ID>> {
+    protected E entityRepository;
 
-    public JpaRepositoryService(CrudRepository<T, ID> entityRepository) {
+    public JpaRepositoryService(E entityRepository) {
         this.entityRepository = entityRepository;
     }
 
