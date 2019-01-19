@@ -1,5 +1,8 @@
 buildscript {
     ext {
+        dozerVersion = "5.5.1"
+        h2Version = "1.4.194"
+        mysqlConnectorVersion = "8.0.13"
         springVersion = "2.1.2.RELEASE"
     }
 
@@ -59,8 +62,13 @@ repositories {
 }
 
 dependencies {
+    compile group: "net.sf.dozer", name: "dozer", version: "$dozerVersion"
     compile group: "org.springframework.boot", name: "spring-boot-starter-test", version: "$springVersion"
     compile group: "org.springframework.boot", name: "spring-boot-starter-web", version: "$springVersion"
+    compile group: "org.springframework.boot", name: "spring-boot-starter-data-jpa", version: "$springVersion"
     compile group: "org.springframework.boot", name: "spring-boot-devtools", version: "$springVersion"
+    compile group: "mysql", name: "mysql-connector-java", version: "$mysqlConnectorVersion"
+
     testCompile group: "org.springframework.boot", name: "spring-boot-starter-test", version: "$springVersion"
+    testCompile group: "com.h2database", name: "h2", version: "$h2Version"
 }
