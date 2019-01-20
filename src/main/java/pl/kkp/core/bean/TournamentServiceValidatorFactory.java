@@ -2,7 +2,6 @@ package pl.kkp.core.bean;
 
 import org.springframework.beans.factory.FactoryBean;
 import pl.kkp.core.db.entity.Tournament;
-import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.action.ValidatorAction;
@@ -10,18 +9,18 @@ import pl.kkp.core.db.service.validate.action.ValidatorAction;
 import java.util.List;
 import java.util.Map;
 
-public class TournamentSeasonServiceValidatorFactory implements FactoryBean<ServiceValidator<TournamentSeason>> {
-    private static final Boolean IS_SINGLETON = true;
+public class TournamentServiceValidatorFactory implements FactoryBean<ServiceValidator<Tournament>> {
+    private static final Boolean IS_SINGLETON = Boolean.TRUE;
 
-    private Map<ValidatorActionType, List<? extends ValidatorAction<TournamentSeason>>> actions;
+    private Map<ValidatorActionType, List<? extends ValidatorAction<Tournament>>> actions;
 
-    public TournamentSeasonServiceValidatorFactory(
-            Map<ValidatorActionType, List<? extends ValidatorAction<TournamentSeason>>> actions) {
+    public TournamentServiceValidatorFactory(Map<ValidatorActionType,
+            List<? extends ValidatorAction<Tournament>>> actions) {
         this.actions = actions;
     }
 
     @Override
-    public ServiceValidator<TournamentSeason> getObject() throws Exception {
+    public ServiceValidator<Tournament> getObject() throws Exception {
         return new ServiceValidator<>(actions);
     }
 

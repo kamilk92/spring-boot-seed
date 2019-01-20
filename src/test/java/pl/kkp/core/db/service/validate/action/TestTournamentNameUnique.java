@@ -1,0 +1,61 @@
+package pl.kkp.core.db.service.validate.action;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import pl.kkp.core.db.entity.Tournament;
+import pl.kkp.core.db.service.TournamentService;
+import pl.kkp.core.db.service.validate.ValidatorActionType;
+import pl.kkp.core.db.service.validate.exception.ValidationException;
+import pl.kkp.core.testing.SpringBootBaseTest;
+import pl.kkp.core.testing.asserations.ExceptionAssertaions;
+
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+import static org.mockito.Mockito.when;
+
+
+public class TestTournamentNameUnique extends SpringBootBaseTest {
+
+    private Tournament tournament;
+
+    @Autowired
+    private TournamentNameUnique tournamentNameUnique;
+
+    @MockBean
+    private TournamentService tournamentService;
+
+    @Before
+    public void setUp() {
+        tournament = setUpTournament();
+    }
+
+    @Test
+    public void isNotRaiseExceptionWhenTournamentNameUnique() throws ValidationException {
+        ValidatorActionType action = ValidatorActionType.SAVE;
+        when(tournamentService.findByName(tournament.getName())).thenReturn(null);
+
+        tournamentNameUnique.validate(tournament, action);
+    }
+
+    @Test
+    public void isRaiseExceptionWhenTournamentNameIsNotUnique() {
+        ValidatorActionType action = ValidatorActionType.SAVE;
+        when(tournamentService.findByName(tournament.getName())).thenReturn(tournament);
+
+        Throwable thrown = catchThrowable(() -> {
+            tournamentNameUnique.validate(tournament, action);
+        });
+
+        String failureReason = String.format(TournamentNameUnique.TOURNAMENT_NAME_ALREADY_EXIST, tournament.getName());
+        String expectedMessage = String.format(ValidationException.EXCEPTION_MESSAGE, action, failureReason);
+        ExceptionAssertaions.assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
+    }
+
+    private Tournament setUpTournament() {
+        String name = "Premier Division";
+        String description = "Spain first league.";
+
+        return new Tournament(name, description);
+    }
+}

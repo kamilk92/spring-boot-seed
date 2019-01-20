@@ -1,4 +1,4 @@
-package pl.kkp.core.db.service;
+package pl.kkp.core.db.service.validate;
 
 import org.junit.Before;
 import org.junit.Test;

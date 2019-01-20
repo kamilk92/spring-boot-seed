@@ -26,4 +26,14 @@ public class TestTournamentRepository extends TestJpa {
         assertThat(createdTournament.getDescription()).isEqualTo(tournament.getDescription());
     }
 
+    @Test
+    public void isFindTournamentByName() {
+        String tournamentName = "Test tournament";
+
+        Tournament tournament = tournamentRepository.findByName(tournamentName);
+
+        assertThat(tournament).isNotNull();
+        assertThat(tournament.getName()).isEqualTo(tournamentName);
+    }
+
 }

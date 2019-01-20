@@ -1,10 +1,12 @@
 package pl.kkp.core.db.service.validate.action;
 
+import org.springframework.stereotype.Component;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 
+@Component
 public class TournamentIdFieldSetInTournamentSeason extends ValidatorAction<TournamentSeason> {
     public static final String TOURNAMENT_FIELD_NOT_SET = "Tournament not set in tournament season";
     public static final String TOURNAMENT_ID_FIELD_NOT_SET = "Tournament id not set in tournament.";
