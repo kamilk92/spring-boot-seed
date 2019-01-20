@@ -3,7 +3,6 @@ package pl.kkp.core.db.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.service.validate.ServiceValidator;
@@ -20,7 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 public class TestTournamentSeasonServiceValidator extends SpringBootBaseTest {
 
     @Autowired
-    private ServiceValidator tournamentSeasonServiceValidator;
+    private ServiceValidator<TournamentSeason> tournamentSeasonServiceValidator;
 
     private TournamentSeason tournamentSeason;
 

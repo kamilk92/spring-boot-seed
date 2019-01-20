@@ -20,7 +20,8 @@ public class TournamentSeasonServiceValidatorConfiguration {
     private Map<ValidatorActionType, List<? extends ValidatorAction<TournamentSeason>>> actions;
 
     @Autowired
-    public TournamentSeasonServiceValidatorConfiguration(TournamentIdFieldSetInTournamentSeason tournamentIdFieldSetInTournamentSeason) {
+    public TournamentSeasonServiceValidatorConfiguration(
+            TournamentIdFieldSetInTournamentSeason tournamentIdFieldSetInTournamentSeason) {
         this.actions = new LinkedHashMap<ValidatorActionType, List<? extends ValidatorAction<TournamentSeason>>>() {
             {
                 put(ValidatorActionType.SAVE, Arrays.asList(tournamentIdFieldSetInTournamentSeason));

@@ -15,7 +15,8 @@ public class TournamentSeasonServiceValidatorFactory implements FactoryBean<Serv
 
     private Map<ValidatorActionType, List<? extends ValidatorAction<TournamentSeason>>> actions;
 
-    public TournamentSeasonServiceValidatorFactory(Map<ValidatorActionType, List<? extends ValidatorAction<TournamentSeason>>> actions) {
+    public TournamentSeasonServiceValidatorFactory(
+            Map<ValidatorActionType, List<? extends ValidatorAction<TournamentSeason>>> actions) {
         this.actions = actions;
     }
 

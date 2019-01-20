@@ -60,7 +60,8 @@ public class TestTournamentSeasonRepository extends TestJpa {
         return tournament;
     }
 
-    private TournamentSeason saveTournamentSeason(Integer id, LocalDate beginDate, Boolean isOpen, Tournament tournament) {
+    private TournamentSeason saveTournamentSeason(
+            Integer id, LocalDate beginDate, Boolean isOpen, Tournament tournament) {
         TournamentSeason season = new TournamentSeason(id, beginDate, isOpen, tournament);
         TournamentSeason createdSeason = tournamentSeasonRepository.save(season);
 
