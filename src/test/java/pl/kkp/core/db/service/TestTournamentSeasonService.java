@@ -1,0 +1,66 @@
+package pl.kkp.core.db.service;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import pl.kkp.core.db.entity.Tournament;
+import pl.kkp.core.db.entity.TournamentSeason;
+import pl.kkp.core.db.service.validate.ServiceValidator;
+import pl.kkp.core.db.service.validate.ValidatorActionType;
+import pl.kkp.core.db.service.validate.action.TournamentIdFieldSetInTournamentSeason;
+import pl.kkp.core.db.service.validate.action.ValidatorAction;
+import pl.kkp.core.db.service.validate.exception.ValidationException;
+import pl.kkp.core.testing.SpringBootBaseTest;
+import pl.kkp.core.testing.asserations.ExceptionAssertaions;
+
+import java.time.LocalDate;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+
+public class TestTournamentSeasonService extends SpringBootBaseTest {
+    @MockBean
+    private TournamentService mockTournamentService;
+
+    private TournamentSeason tournamentSeason;
+
+    @Autowired
+    private TournamentSeasonService tournamentSeasonService;
+
+    @Before
+    public void setUp() {
+        Integer seasonId = null;
+        LocalDate beginDate = LocalDate.now();
+        Boolean isOpen = Boolean.TRUE;
+        Tournament tournament = null;
+        tournamentSeason = new TournamentSeason(seasonId, beginDate, isOpen, tournament);
+    }
+
+    @Test
+    public void isCreateNewTournamentSeason() throws ValidationException {
+        Integer targetTournamentId = 0;
+        Tournament tournament = new Tournament(targetTournamentId);
+        tournamentSeason.setTournament(tournament);
+
+        TournamentSeason createdTournamentSeason = tournamentSeasonService.save(tournamentSeason);
+
+        assertThat(createdTournamentSeason).isNotNull();
+    }
+
+    @Test
+    public void isRaiseExceptionWhenTournamentIdNotSet() {
+        Throwable thrown = catchThrowable(() -> {
+            tournamentSeasonService.save(tournamentSeason);
+        });
+        String expectedMessage = String.format(
+                ValidationException.EXCEPTION_MESSAGE,
+                ValidatorActionType.SAVE,
+                TournamentIdFieldSetInTournamentSeason.TOURNAMENT_FIELD_NOT_SET
+        );
+
+        assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
+    }
+}

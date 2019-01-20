@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.kkp.core.controller.model.TournamentModel;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.service.TournamentService;
+import pl.kkp.core.db.service.validate.exception.ValidationException;
 
 @RestController
 public class TournamentController {
@@ -20,7 +21,7 @@ public class TournamentController {
     private DozerBeanMapper dozerBeanMapper;
 
     @PostMapping(path = "/tournament")
-    public TournamentModel createTournament(@RequestBody TournamentModel tournamentModel) {
+    public TournamentModel createTournament(@RequestBody TournamentModel tournamentModel) throws ValidationException {
         Tournament tournament = dozerBeanMapper.map(tournamentModel, Tournament.class);
         tournament = tournamentService.save(tournament);
 

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.kkp.core.controller.model.UserModel;
 import pl.kkp.core.db.entity.User;
 import pl.kkp.core.db.service.UserService;
+import pl.kkp.core.db.service.validate.exception.ValidationException;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -18,7 +19,7 @@ public class UserController {
     private DozerBeanMapper dozerBeanMapper;
 
     @PostMapping
-    public UserModel createUser(@RequestBody UserModel userModel) {
+    public UserModel createUser(@RequestBody UserModel userModel) throws ValidationException {
         User user = dozerBeanMapper.map(userModel, User.class);
         user = userService.save(user);
 

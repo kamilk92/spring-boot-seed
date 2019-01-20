@@ -16,6 +16,10 @@ public class Tournament {
     public Tournament() {
     }
 
+    public Tournament(Integer id) {
+        this.id = id;
+    }
+
     public Tournament(Integer id, String name, String description) {
         this.id = id;
         this.name = name;
