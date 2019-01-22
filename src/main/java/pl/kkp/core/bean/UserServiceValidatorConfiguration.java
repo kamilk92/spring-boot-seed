@@ -10,6 +10,7 @@ import pl.kkp.core.db.service.validate.action.UserEmailUniqueValidator;
 import pl.kkp.core.db.service.validate.action.UserLoginFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserLoginUniqueValidator;
 import pl.kkp.core.db.service.validate.action.UserPasswordFieldSetValidator;
+import pl.kkp.core.db.service.validate.action.UserPasswordLengthValidator;
 import pl.kkp.core.db.service.validate.action.ValidatorAction;
 
 import java.util.Arrays;
@@ -26,7 +27,8 @@ public class UserServiceValidatorConfiguration {
     public UserServiceValidatorConfiguration(UserLoginFieldSetValidator userLoginFieldSetValidator,
                                              UserPasswordFieldSetValidator userPasswordFieldSetValidator,
                                              UserLoginUniqueValidator userLoginUniqueValidator,
-                                             UserEmailUniqueValidator userEmailUniqueValidator) {
+                                             UserEmailUniqueValidator userEmailUniqueValidator,
+                                             UserPasswordLengthValidator userPasswordLengthValidator) {
         this.actions = new LinkedHashMap<ValidatorActionType, List<? extends ValidatorAction<User>>>() {
             {
                 put(ValidatorActionType.SAVE,
@@ -34,7 +36,8 @@ public class UserServiceValidatorConfiguration {
                                 userLoginFieldSetValidator,
                                 userPasswordFieldSetValidator,
                                 userLoginUniqueValidator,
-                                userEmailUniqueValidator
+                                userEmailUniqueValidator,
+                                userPasswordLengthValidator
                         )
                 );
             }
