@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
-import pl.kkp.core.db.service.validate.exception.ValidationException;
+import pl.kkp.core.db.service.validate.exception.FieldNotSetException;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
 
 public class TestTournamentIdFieldSetInTournamentSeason extends SpringBootBaseTest {
 
@@ -34,12 +35,9 @@ public class TestTournamentIdFieldSetInTournamentSeason extends SpringBootBaseTe
             tournamentIdFieldSetInTournamentSeason.validate(tournamentSeason, action);
         });
 
-        String expectedMessage = String.format(
-                ValidationException.EXCEPTION_MESSAGE,
-                action,
-                TournamentIdFieldSetInTournamentSeason.TOURNAMENT_FIELD_NOT_SET
-        );
-        assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
+        String expectedMessage = buildFiledNotSetValidationMessage(
+                action, TournamentIdFieldSetInTournamentSeason.VALIDATED_TOURNAMENT_FIELD);
+        assertExceptionMessage(expectedMessage, FieldNotSetException.class, thrown);
     }
 
     public TournamentSeason setUpTournamentSeason() {

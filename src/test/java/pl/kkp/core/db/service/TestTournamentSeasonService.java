@@ -2,24 +2,21 @@ package pl.kkp.core.db.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.entity.TournamentSeason;
-import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.action.TournamentIdFieldSetInTournamentSeason;
-import pl.kkp.core.db.service.validate.action.ValidatorAction;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
-import pl.kkp.core.testing.asserations.ExceptionAssertaions;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
 
 public class TestTournamentSeasonService extends SpringBootBaseTest {
     @MockBean
@@ -52,15 +49,15 @@ public class TestTournamentSeasonService extends SpringBootBaseTest {
 
     @Test
     public void isRaiseExceptionWhenTournamentIdNotSet() {
+        Tournament tournament = new Tournament();
+        tournamentSeason.setTournament(tournament);
+
         Throwable thrown = catchThrowable(() -> {
             tournamentSeasonService.save(tournamentSeason);
         });
-        String expectedMessage = String.format(
-                ValidationException.EXCEPTION_MESSAGE,
-                ValidatorActionType.SAVE,
-                TournamentIdFieldSetInTournamentSeason.TOURNAMENT_FIELD_NOT_SET
-        );
 
+        String expectedMessage = buildFiledNotSetValidationMessage(
+                ValidatorActionType.SAVE, TournamentIdFieldSetInTournamentSeason.VALIDATED_TOURNAMENT_FIELD);
         assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
     }
 }

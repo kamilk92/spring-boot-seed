@@ -5,9 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -18,6 +19,19 @@ public class User {
     private Boolean isEnabled;
 
     public User() {
+    }
+
+    public User(User user) {
+        id = user.getId();
+        login = user.getLogin();
+        password = user.getPassword();
+        nick = user.getNick();
+        email = user.getEmail();
+        isEnabled = user.getEnabled();
+    }
+
+    public User(String login) {
+        this.login = login;
     }
 
     public User(Integer id, String login, String password, String nick, String email, Boolean isEnabled) {

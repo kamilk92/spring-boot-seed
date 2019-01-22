@@ -9,10 +9,11 @@ import pl.kkp.core.db.service.TournamentService;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
-import pl.kkp.core.testing.asserations.ExceptionAssertaions;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.when;
+import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValieValidationMessage;
 
 
 public class TestTournamentNameUnique extends SpringBootBaseTest {
@@ -20,7 +21,7 @@ public class TestTournamentNameUnique extends SpringBootBaseTest {
     private Tournament tournament;
 
     @Autowired
-    private TournamentNameUnique tournamentNameUnique;
+    private TournamentNameUniqueValidator tournamentNameUnique;
 
     @MockBean
     private TournamentService tournamentService;
@@ -47,9 +48,9 @@ public class TestTournamentNameUnique extends SpringBootBaseTest {
             tournamentNameUnique.validate(tournament, action);
         });
 
-        String failureReason = String.format(TournamentNameUnique.TOURNAMENT_NAME_ALREADY_EXIST, tournament.getName());
-        String expectedMessage = String.format(ValidationException.EXCEPTION_MESSAGE, action, failureReason);
-        ExceptionAssertaions.assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
+        String expectedMessage = buildUniqueValieValidationMessage(
+                action, TournamentNameUniqueValidator.VALIDATED_FIELD);
+        assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
     }
 
     private Tournament setUpTournament() {

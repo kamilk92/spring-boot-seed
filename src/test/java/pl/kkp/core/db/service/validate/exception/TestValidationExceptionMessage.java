@@ -2,6 +2,7 @@ package pl.kkp.core.db.service.validate.exception;
 
 import org.junit.Test;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
+import pl.kkp.core.testing.mocks.ServiceValidatorMocks;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
@@ -16,7 +17,8 @@ public class TestValidationExceptionMessage {
             throw new ValidationException(validatorAction, failureReason);
         });
 
-        String expectedMessage = String.format(ValidationException.EXCEPTION_MESSAGE, validatorAction, failureReason);
+        String expectedMessage = ServiceValidatorMocks.buildValidationMessage(
+                ValidatorActionType.SAVE, failureReason);
         assertThat(thrown)
                 .isInstanceOf(ValidationException.class)
                 .hasMessage(expectedMessage);

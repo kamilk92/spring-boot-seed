@@ -7,13 +7,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
-import pl.kkp.core.db.service.validate.action.TournamentNameUnique;
+import pl.kkp.core.db.service.validate.action.TournamentNameUniqueValidator;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.when;
 import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValieValidationMessage;
 
 public class TestTournamentValidator extends SpringBootBaseTest {
 
@@ -49,9 +50,8 @@ public class TestTournamentValidator extends SpringBootBaseTest {
             tournamentServiceValidator.validate(tournament, action);
         });
 
-        String failureReason = String.format(TournamentNameUnique.TOURNAMENT_NAME_ALREADY_EXIST, tournament.getName());
-        String expectedMessage = String.format(ValidationException.EXCEPTION_MESSAGE, action, failureReason);
-
+        String expectedMessage = buildUniqueValieValidationMessage(
+                action, TournamentNameUniqueValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
     }
 

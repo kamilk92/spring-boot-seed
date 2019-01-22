@@ -30,6 +30,7 @@ public class TestTournamentController extends TestRestController {
         assertResponseStatusCode(createdTournamentRsp);
 
         TournamentModel createdTournament = createdTournamentRsp.getBody();
+        assertThat(createdTournament).isNotNull();
         assertThat(createdTournament.getId()).isNotNull();
         assertThat(createdTournament.getName()).isEqualTo(name);
         assertThat(createdTournament.getDescription()).isEqualTo(description);

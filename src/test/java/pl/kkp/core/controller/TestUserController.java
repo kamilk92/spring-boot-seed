@@ -34,12 +34,13 @@ public class TestUserController extends TestRestController {
 
         UserModel createdUser = createdUserRsp.getBody();
 
+        assertThat(createdUser).isNotNull();
         assertThat(createdUser.getId()).isNotNull();
         assertThat(createdUser.getLogin()).isEqualTo(login);
         assertThat(createdUser.getPassword()).isEqualTo(pass);
         assertThat(createdUser.getNick()).isEqualTo(nick);
         assertThat(createdUser.getEmail()).isEqualTo(email);
-        assertThat(createdUser.getEnabled()).isEqualTo(isEnabled);
+        assertThat(createdUser.getEnabled()).isEqualTo(true);
     }
 
     @Test
