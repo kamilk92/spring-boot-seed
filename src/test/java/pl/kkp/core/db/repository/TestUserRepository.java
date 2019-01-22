@@ -35,6 +35,16 @@ public class TestUserRepository extends TestJpa {
         assertThat(foundUser).isEqualTo(createdUser);
     }
 
+    @Test
+    public void isUserFindByEmail() {
+        String email = "test-admin@domain.com";
+
+        User foundUser = userRepository.findByEmail(email);
+
+        assertThat(foundUser).isNotNull();
+        assertThat(foundUser.getEmail()).isEqualTo(email);
+    }
+
     private User saveUser(Integer id, String login, String password, String nick, String email, Boolean isEnabled) {
         User user = new User(id, login, password, nick, email, isEnabled);
 

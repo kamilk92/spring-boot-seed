@@ -18,7 +18,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
-import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValieValidationMessage;
+import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValueValidationMessage;
 
 public class TestTournamentService extends SpringBootBaseTest {
     @Mock
@@ -40,7 +40,7 @@ public class TestTournamentService extends SpringBootBaseTest {
             tournamentService.save(mockSavedTournament);
         });
 
-        String expectedMessage = buildUniqueValieValidationMessage(
+        String expectedMessage = buildUniqueValueValidationMessage(
                 ValidatorActionType.SAVE, TournamentNameUniqueValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, NotUniqueValueException.class, thrown);
     }

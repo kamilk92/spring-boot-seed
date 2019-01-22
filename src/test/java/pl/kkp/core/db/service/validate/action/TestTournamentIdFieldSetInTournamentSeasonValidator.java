@@ -15,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
 
-public class TestTournamentIdFieldSetInTournamentSeason extends SpringBootBaseTest {
+public class TestTournamentIdFieldSetInTournamentSeasonValidator extends SpringBootBaseTest {
 
     private TournamentSeason tournamentSeason;
 

@@ -12,31 +12,30 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
 
-public class TestUserLoginFieldSet extends SpringBootBaseTest {
-
+public class TestUserPasswordFieldSetValidator extends SpringBootBaseTest {
     @Autowired
-    private UserLoginFieldSet userLoginFieldSet;
+    private UserPasswordFieldSetValidator userPasswordFieldSet;
 
     @Test
-    public void isThrowExceptionWhenUserLoginNotSet() {
+    public void isPassWhenPasswordFieldSet() throws ValidationException {
+        User user = new User();
+        String userPassword = "password";
+        user.setPassword(userPassword);
+        ValidatorActionType action = ValidatorActionType.SAVE;
+
+        userPasswordFieldSet.validate(user, action);
+    }
+
+    @Test
+    public void isThrowExceptionWhenPasswordFieldNotSet() {
         User user = new User();
         ValidatorActionType action = ValidatorActionType.SAVE;
 
         Throwable thrown = catchThrowable(() -> {
-            userLoginFieldSet.validate(user, action);
+            userPasswordFieldSet.validate(user, action);
         });
 
-        String expectedMessage = buildFiledNotSetValidationMessage(action, UserLoginFieldSet.VALIDATED_FIELD_NAME);
-        assertExceptionMessage(expectedMessage, FieldNotSetException.class, thrown);
-    }
-
-    @Test
-    public void isPassWhenUserLoginSet() throws ValidationException {
-        User user = new User();
-        String login = "login";
-        user.setLogin(login);
-        ValidatorActionType action = ValidatorActionType.SAVE;
-
-        userLoginFieldSet.validate(user, action);
+        String expectedMsg = buildFiledNotSetValidationMessage(action, UserPasswordFieldSetValidator.VALIDATED_FIELD);
+        assertExceptionMessage(expectedMsg, FieldNotSetException.class, thrown);
     }
 }

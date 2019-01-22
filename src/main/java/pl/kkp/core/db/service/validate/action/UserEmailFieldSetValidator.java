@@ -4,15 +4,15 @@ import org.springframework.stereotype.Component;
 import pl.kkp.core.db.entity.User;
 
 @Component
-public class UserLoginFieldSet extends FieldSetValidator<User> {
-    public static final String VALIDATED_FIELD_NAME = "login";
+public class UserEmailFieldSetValidator extends FieldSetValidator<User> {
+    public static final String VALIDATED_FIELD_NAME = "email";
 
-    public UserLoginFieldSet() {
+    public UserEmailFieldSetValidator() {
         super(VALIDATED_FIELD_NAME);
     }
 
     @Override
     protected boolean isFieldSet(User entity) {
-        return isStringNotEmpty(entity.getLogin());
+        return isStringNotEmpty(entity.getEmail());
     }
 }

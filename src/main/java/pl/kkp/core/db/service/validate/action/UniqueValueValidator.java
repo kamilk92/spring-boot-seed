@@ -4,16 +4,15 @@ import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.NotUniqueValueException;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 
-public abstract class UniqueValueValidator<T> implements ValidatorAction<T> {
-    private String validatedField;
-
+public abstract class UniqueValueValidator<T> extends FieldValidatorAction<T> {
     public UniqueValueValidator(String validatedField) {
-        this.validatedField = validatedField;
+        super(validatedField);
     }
 
     @Override
     public void validate(T entity, ValidatorActionType targetAction) throws ValidationException {
         if (!isUniqueValue(entity)) {
+            String validatedField = getValidatedField();
             throw new NotUniqueValueException(targetAction, validatedField);
         }
     }

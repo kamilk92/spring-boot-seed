@@ -13,10 +13,10 @@ import pl.kkp.core.testing.SpringBootBaseTest;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.when;
 import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
-import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValieValidationMessage;
+import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValueValidationMessage;
 
 
-public class TestTournamentNameUnique extends SpringBootBaseTest {
+public class TestTournamentNameUniqueValidator extends SpringBootBaseTest {
 
     private Tournament tournament;
 
@@ -48,7 +48,7 @@ public class TestTournamentNameUnique extends SpringBootBaseTest {
             tournamentNameUnique.validate(tournament, action);
         });
 
-        String expectedMessage = buildUniqueValieValidationMessage(
+        String expectedMessage = buildUniqueValueValidationMessage(
                 action, TournamentNameUniqueValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
     }

@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import pl.kkp.core.db.entity.User;
 import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
-import pl.kkp.core.db.service.validate.action.UserLoginFieldSet;
-import pl.kkp.core.db.service.validate.action.UserPasswordFieldSet;
+import pl.kkp.core.db.service.validate.action.UserEmailUniqueValidator;
+import pl.kkp.core.db.service.validate.action.UserLoginFieldSetValidator;
+import pl.kkp.core.db.service.validate.action.UserLoginUniqueValidator;
+import pl.kkp.core.db.service.validate.action.UserPasswordFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.ValidatorAction;
 
 import java.util.Arrays;
@@ -21,13 +23,20 @@ public class UserServiceValidatorConfiguration {
     private Map<ValidatorActionType, List<? extends ValidatorAction<User>>> actions;
 
     @Autowired
-    public UserServiceValidatorConfiguration(UserLoginFieldSet userLoginFieldSet,
-                                             UserPasswordFieldSet userPasswordFieldSet) {
+    public UserServiceValidatorConfiguration(UserLoginFieldSetValidator userLoginFieldSetValidator,
+                                             UserPasswordFieldSetValidator userPasswordFieldSetValidator,
+                                             UserLoginUniqueValidator userLoginUniqueValidator,
+                                             UserEmailUniqueValidator userEmailUniqueValidator) {
         this.actions = new LinkedHashMap<ValidatorActionType, List<? extends ValidatorAction<User>>>() {
             {
-                put(ValidatorActionType.SAVE, Arrays.asList(
-                        userLoginFieldSet,
-                        userPasswordFieldSet));
+                put(ValidatorActionType.SAVE,
+                        Arrays.asList(
+                                userLoginFieldSetValidator,
+                                userPasswordFieldSetValidator,
+                                userLoginUniqueValidator,
+                                userEmailUniqueValidator
+                        )
+                );
             }
         }
         ;

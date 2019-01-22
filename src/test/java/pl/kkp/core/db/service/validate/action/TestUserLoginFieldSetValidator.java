@@ -7,36 +7,37 @@ import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.FieldNotSetException;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
-import pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
 
-public class TestUserPasswordFieldSet extends SpringBootBaseTest {
+public class TestUserLoginFieldSetValidator extends SpringBootBaseTest {
+
     @Autowired
-    private UserPasswordFieldSet userPasswordFieldSet;
+    private UserLoginFieldSetValidator userLoginFieldSet;
 
     @Test
-    public void isPassWhenPasswordFieldSet() throws ValidationException {
-        User user = new User();
-        String userPassword = "password";
-        user.setPassword(userPassword);
-        ValidatorActionType action = ValidatorActionType.SAVE;
-
-        userPasswordFieldSet.validate(user, action);
-    }
-
-    @Test
-    public void isThrowExceptionWhenPasswordFieldNotSet() {
+    public void isThrowExceptionWhenUserLoginNotSet() {
         User user = new User();
         ValidatorActionType action = ValidatorActionType.SAVE;
 
         Throwable thrown = catchThrowable(() -> {
-            userPasswordFieldSet.validate(user, action);
+            userLoginFieldSet.validate(user, action);
         });
 
-        String expectedMsg = buildFiledNotSetValidationMessage(action, UserPasswordFieldSet.VALIDATED_FIELD);
-        assertExceptionMessage(expectedMsg, FieldNotSetException.class, thrown);
+        String expectedMessage = buildFiledNotSetValidationMessage(
+                action, UserLoginFieldSetValidator.VALIDATED_FIELD_NAME);
+        assertExceptionMessage(expectedMessage, FieldNotSetException.class, thrown);
+    }
+
+    @Test
+    public void isPassWhenUserLoginSet() throws ValidationException {
+        User user = new User();
+        String login = "login";
+        user.setLogin(login);
+        ValidatorActionType action = ValidatorActionType.SAVE;
+
+        userLoginFieldSet.validate(user, action);
     }
 }

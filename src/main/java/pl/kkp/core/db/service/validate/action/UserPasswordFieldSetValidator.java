@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 import pl.kkp.core.db.entity.User;
 
 @Component
-public class UserPasswordFieldSet extends FieldSetValidator<User> {
+public class UserPasswordFieldSetValidator extends FieldSetValidator<User> {
     public static final String VALIDATED_FIELD = "password";
 
-    public UserPasswordFieldSet() {
+    public UserPasswordFieldSetValidator() {
         super(VALIDATED_FIELD);
     }
 
