@@ -36,7 +36,7 @@ public class TestUserEmailFieldSetValidator extends SpringBootBaseTest {
         });
 
         String expectedMessage = buildFiledNotSetValidationMessage(
-                action, UserEmailFieldSetValidator.VALIDATED_FIELD_NAME);
+                action, UserEmailFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, FieldNotSetException.class, thrown);
     }
 }

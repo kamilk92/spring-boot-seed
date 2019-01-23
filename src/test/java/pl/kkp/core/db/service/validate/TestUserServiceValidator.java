@@ -6,17 +6,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.kkp.core.db.entity.User;
 import pl.kkp.core.db.repository.UserRepository;
 import pl.kkp.core.db.service.UserService;
+import pl.kkp.core.db.service.validate.action.UserEmailFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserEmailUniqueValidator;
 import pl.kkp.core.db.service.validate.action.UserLoginFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserLoginUniqueValidator;
 import pl.kkp.core.db.service.validate.action.UserPasswordFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserPasswordLengthValidator;
+import pl.kkp.core.db.service.validate.action.ValidatorAction;
 import pl.kkp.core.db.service.validate.exception.FieldLengthTooLongException;
 import pl.kkp.core.db.service.validate.exception.FieldLengthTooShortException;
 import pl.kkp.core.db.service.validate.exception.FieldNotSetException;
 import pl.kkp.core.db.service.validate.exception.NotUniqueValueException;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
+import pl.kkp.core.util.RandomStringGenerator;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.when;
@@ -30,11 +33,16 @@ import static pl.kkp.core.testing.mocks.ServiceValidatorMocks.mockDoNothingOnVal
 import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValueValidationMessage;
 
 public class TestUserServiceValidator extends SpringBootBaseTest {
+    private RandomStringGenerator passwordGenerator;
+
     @Autowired
     private ServiceValidator<User> userServiceValidator;
 
     @MockBean
     private UserEmailUniqueValidator userEmailUniqueValidator;
+
+    @MockBean
+    private UserEmailFieldSetValidator userEmailFieldNotSetValidator;
 
     @MockBean
     private UserLoginFieldSetValidator userLoginFieldSetValidator;
@@ -54,6 +62,10 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
     @MockBean
     private UserService userService;
 
+    public TestUserServiceValidator() {
+        passwordGenerator = new RandomStringGenerator(UserPasswordLengthValidator.MAX_PASSWORD_LENGTH + 1);
+    }
+
     @Test
     public void isPassWhenUserLoginSetOnSaveAction() throws ValidationException {
         String login = "user";
@@ -67,8 +79,9 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
     public void isRaiseExceptionWhenUserLoginNotSetOnSaveAction() throws ValidationException {
         User user = new User();
         ValidatorActionType action = ValidatorActionType.SAVE;
-        String validatedField = UserLoginFieldSetValidator.VALIDATED_FIELD_NAME;
+        String validatedField = UserLoginFieldSetValidator.VALIDATED_FIELD;
 
+        mockDoNothingOnValidateMethod(userEmailFieldNotSetValidator, user, action);
         mockDoCallRealFieldValidateMethod(userLoginFieldSetValidator, user, action, validatedField);
         mockDoNothingOnValidateMethod(userPasswordFieldSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginUniqueValidator, user, action);
@@ -90,6 +103,7 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
         ValidatorActionType action = ValidatorActionType.SAVE;
         String validatedField = UserPasswordFieldSetValidator.VALIDATED_FIELD;
 
+        mockDoNothingOnValidateMethod(userEmailFieldNotSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginFieldSetValidator, user, action);
         mockDoCallRealFieldValidateMethod(userPasswordFieldSetValidator, user, action, validatedField);
         mockDoNothingOnValidateMethod(userLoginUniqueValidator, user, action);
@@ -109,8 +123,8 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
         String login = "login";
         User user = new User(login);
         ValidatorActionType action = ValidatorActionType.SAVE;
-        String validatedField = UserLoginUniqueValidator.VALIDATED_FIELD;
 
+        mockDoNothingOnValidateMethod(userEmailFieldNotSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginFieldSetValidator, user, action);
         mockDoNothingOnValidateMethod(userPasswordFieldSetValidator, user, action);
         mockDoCallRealFieldValidateMethod(userLoginUniqueValidator, user, action, validatedField);
@@ -122,6 +136,7 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
             userServiceValidator.validate(user, action);
         });
 
+        String validadd tedField = UserLoginUniqueValidator.VALIDATED_FIELD;
         String expectedMessage = buildUniqueValueValidationMessage(action, validatedField);
         assertExceptionMessage(expectedMessage, NotUniqueValueException.class, thrown);
     }
@@ -134,6 +149,7 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
 
 
         ValidatorActionType action = ValidatorActionType.SAVE;
+        mockDoNothingOnValidateMethod(userEmailFieldNotSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginFieldSetValidator, user, action);
         mockDoNothingOnValidateMethod(userPasswordFieldSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginUniqueValidator, user, action);
@@ -158,6 +174,7 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
 
 
         ValidatorActionType action = ValidatorActionType.SAVE;
+        mockDoNothingOnValidateMethod(userEmailFieldNotSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginFieldSetValidator, user, action);
         mockDoNothingOnValidateMethod(userPasswordFieldSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginUniqueValidator, user, action);
@@ -181,11 +198,12 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
     @Test
     public void isRaiseExceptionWhenUserPasswordLengthIsTooLong() throws ValidationException {
         User user = new User();
-        String userPass = buildLongPassword();
+        String userPass = passwordGenerator.generate();
         user.setPassword(userPass);
 
 
         ValidatorActionType action = ValidatorActionType.SAVE;
+        mockDoNothingOnValidateMethod(userEmailFieldNotSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginFieldSetValidator, user, action);
         mockDoNothingOnValidateMethod(userPasswordFieldSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginUniqueValidator, user, action);
@@ -204,15 +222,5 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
         String expectedMessage = buildFieldTooLongValidationMessage(
                 action, validatedField, userPass.length(), maxPasswordLen);
         assertExceptionMessage(expectedMessage, FieldLengthTooLongException.class, thrown);
-    }
-
-    private String buildLongPassword() {
-        int passwordLength = UserPasswordLengthValidator.MAX_PASSWORD_LENGTH + 1;
-        char[] passwordCharacters = new char[passwordLength];
-        for (int i = 0; i < passwordLength; i++) {
-            passwordCharacters[i] = '*';
-        }
-
-        return new String(passwordCharacters);
     }
 }

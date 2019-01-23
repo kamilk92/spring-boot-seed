@@ -17,5 +17,5 @@ public abstract class UniqueValueValidator<T> extends FieldValidatorAction<T> {
         }
     }
 
-    protected abstract boolean isUniqueValue(T entity);
+    public abstract boolean isUniqueValue(T entity);
 }

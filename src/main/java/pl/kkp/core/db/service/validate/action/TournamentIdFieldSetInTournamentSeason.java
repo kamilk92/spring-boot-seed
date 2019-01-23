@@ -12,7 +12,7 @@ public class TournamentIdFieldSetInTournamentSeason extends FieldSetValidator<To
     }
 
     @Override
-    protected boolean isFieldSet(TournamentSeason entity) {
+    public boolean isFieldSet(TournamentSeason entity) {
         return (isTournamentSet(entity) && (isTournamentIdSet(entity)));
     }
 

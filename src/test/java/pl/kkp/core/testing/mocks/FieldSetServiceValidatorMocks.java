@@ -1,6 +1,7 @@
 package pl.kkp.core.testing.mocks;
 
 import pl.kkp.core.db.service.validate.ValidatorActionType;
+import pl.kkp.core.db.service.validate.action.FieldSetValidator;
 import pl.kkp.core.db.service.validate.action.FieldValidatorAction;
 import pl.kkp.core.db.service.validate.exception.FieldNotSetException;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
@@ -15,10 +16,22 @@ public class FieldSetServiceValidatorMocks {
     }
 
     public static <T> void mockDoCallRealFieldValidateMethod(
-            FieldValidatorAction<T> validator, T entity, ValidatorActionType action, String validatedField)
-            throws ValidationException {
-
+            FieldValidatorAction<T> validator,
+            T entity, ValidatorActionType action,
+            String validatedField
+    ) throws ValidationException {
         ServiceValidatorMocks.mockDoCallRealValidateMethod(validator, entity, action);
         when(validator.getValidatedField()).thenReturn(validatedField);
+    }
+
+    public static <T> void mockDoCallIsFieldSetValidateMethod(
+            FieldSetValidator<T> validator,
+            T entity,
+            ValidatorActionType action,
+            String validatedField,
+            boolean isFieldSet
+    ) throws ValidationException {
+        mockDoCallRealFieldValidateMethod(validator, entity, action, validatedField);
+        when(validator.isFieldSet(entity)).thenReturn(isFieldSet);
     }
 }

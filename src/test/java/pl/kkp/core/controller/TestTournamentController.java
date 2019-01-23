@@ -27,7 +27,7 @@ public class TestTournamentController extends TestRestController {
         ResponseEntity<TournamentModel> createdTournamentRsp = restTemplate.postForEntity(
                 endpointPath, tournament, TournamentModel.class);
 
-        assertResponseStatusCode(createdTournamentRsp);
+        assertResponseStatusCodeOk(createdTournamentRsp);
 
         TournamentModel createdTournament = createdTournamentRsp.getBody();
         assertThat(createdTournament).isNotNull();

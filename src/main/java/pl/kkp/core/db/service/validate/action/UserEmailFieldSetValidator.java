@@ -5,14 +5,14 @@ import pl.kkp.core.db.entity.User;
 
 @Component
 public class UserEmailFieldSetValidator extends FieldSetValidator<User> {
-    public static final String VALIDATED_FIELD_NAME = "email";
+    public static final String VALIDATED_FIELD = "email";
 
     public UserEmailFieldSetValidator() {
-        super(VALIDATED_FIELD_NAME);
+        super(VALIDATED_FIELD);
     }
 
     @Override
-    protected boolean isFieldSet(User entity) {
+    public boolean isFieldSet(User entity) {
         return isStringNotEmpty(entity.getEmail());
     }
 }

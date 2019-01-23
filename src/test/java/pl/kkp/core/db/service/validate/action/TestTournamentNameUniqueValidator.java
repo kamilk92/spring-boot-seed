@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.kkp.core.db.entity.Tournament;
+import pl.kkp.core.db.repository.TournamentRepository;
 import pl.kkp.core.db.service.TournamentService;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
@@ -24,7 +25,7 @@ public class TestTournamentNameUniqueValidator extends SpringBootBaseTest {
     private TournamentNameUniqueValidator tournamentNameUnique;
 
     @MockBean
-    private TournamentService tournamentService;
+    private TournamentRepository tournamentRepository;
 
     @Before
     public void setUp() {
@@ -34,7 +35,7 @@ public class TestTournamentNameUniqueValidator extends SpringBootBaseTest {
     @Test
     public void isNotRaiseExceptionWhenTournamentNameUnique() throws ValidationException {
         ValidatorActionType action = ValidatorActionType.SAVE;
-        when(tournamentService.findByName(tournament.getName())).thenReturn(null);
+        when(tournamentRepository.findByName(tournament.getName())).thenReturn(null);
 
         tournamentNameUnique.validate(tournament, action);
     }
@@ -42,7 +43,7 @@ public class TestTournamentNameUniqueValidator extends SpringBootBaseTest {
     @Test
     public void isRaiseExceptionWhenTournamentNameIsNotUnique() {
         ValidatorActionType action = ValidatorActionType.SAVE;
-        when(tournamentService.findByName(tournament.getName())).thenReturn(tournament);
+        when(tournamentRepository.findByName(tournament.getName())).thenReturn(tournament);
 
         Throwable thrown = catchThrowable(() -> {
             tournamentNameUnique.validate(tournament, action);

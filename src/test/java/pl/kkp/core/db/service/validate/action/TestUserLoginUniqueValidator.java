@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.kkp.core.db.entity.User;
+import pl.kkp.core.db.repository.UserRepository;
 import pl.kkp.core.db.service.UserService;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.NotUniqueValueException;
@@ -24,7 +25,7 @@ public class TestUserLoginUniqueValidator extends SpringBootBaseTest {
     private UserLoginUniqueValidator userLoginUniqueValidator;
 
     @MockBean
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Before
     public void setUp() {
@@ -34,7 +35,7 @@ public class TestUserLoginUniqueValidator extends SpringBootBaseTest {
     @Test
     public void isPassWhenUserLoginUnique() throws ValidationException {
         String userLogin = user.getLogin();
-        when(userService.findByLogin(userLogin)).thenReturn(null);
+        when(userRepository.findByLogin(userLogin)).thenReturn(null);
         ValidatorActionType action = ValidatorActionType.SAVE;
 
         userLoginUniqueValidator.validate(user, action);
@@ -43,7 +44,7 @@ public class TestUserLoginUniqueValidator extends SpringBootBaseTest {
     @Test
     public void isRaiseWhenUserLoginNotUnique() {
         String userLogin = user.getLogin();
-        when(userService.findByLogin(userLogin)).thenReturn(user);
+        when(userRepository.findByLogin(userLogin)).thenReturn(user);
         ValidatorActionType action = ValidatorActionType.SAVE;
 
         Throwable thrown = catchThrowable(() -> {

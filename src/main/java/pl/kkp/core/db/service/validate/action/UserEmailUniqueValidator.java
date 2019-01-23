@@ -17,7 +17,7 @@ public class UserEmailUniqueValidator extends UniqueValueValidator<User> {
     }
 
     @Override
-    protected boolean isUniqueValue(User entity) {
+    public boolean isUniqueValue(User entity) {
         String email = entity.getEmail();
         User foundUser = userRepository.findByEmail(email);
 

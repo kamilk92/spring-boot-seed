@@ -6,14 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.repository.TournamentRepository;
+import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.action.TournamentNameUniqueValidator;
+import pl.kkp.core.db.service.validate.action.ValidatorAction;
 import pl.kkp.core.db.service.validate.exception.NotUniqueValueException;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,23 +30,11 @@ public class TestTournamentService extends SpringBootBaseTest {
     @MockBean
     private TournamentRepository tournamentRepository;
 
+    @MockBean
+    private ServiceValidator<Tournament> tournamentServiceValidator;
+
     @Autowired
     private TournamentService tournamentService;
-
-    @Test
-    public void isRaiseExceptionWhenTournamentNameNotUnique() throws ValidationException {
-        String tournamentName = "Test Tournament";
-        when(tournamentService.findByName(tournamentName)).thenReturn(mockSavedTournament);
-        when(mockSavedTournament.getName()).thenReturn(tournamentName);
-
-        Throwable thrown = catchThrowable(() -> {
-            tournamentService.save(mockSavedTournament);
-        });
-
-        String expectedMessage = buildUniqueValueValidationMessage(
-                ValidatorActionType.SAVE, TournamentNameUniqueValidator.VALIDATED_FIELD);
-        assertExceptionMessage(expectedMessage, NotUniqueValueException.class, thrown);
-    }
 
     @Test
     public void isReturnTournamentByName() {
@@ -60,6 +51,8 @@ public class TestTournamentService extends SpringBootBaseTest {
     public void isSaveNewTournament() throws ValidationException {
         Tournament tournamentToSave = new Tournament();
         when(tournamentRepository.save(tournamentToSave)).thenReturn(mockSavedTournament);
+        ValidatorActionType action = ValidatorActionType.SAVE;
+        doNothing().when(tournamentServiceValidator).validate(tournamentToSave, action);
 
         Tournament savedTournament = tournamentService.save(tournamentToSave);
 

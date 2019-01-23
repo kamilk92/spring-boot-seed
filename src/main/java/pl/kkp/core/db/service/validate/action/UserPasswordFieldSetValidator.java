@@ -12,7 +12,7 @@ public class UserPasswordFieldSetValidator extends FieldSetValidator<User> {
     }
 
     @Override
-    protected boolean isFieldSet(User entity) {
+    public boolean isFieldSet(User entity) {
         return isStringNotEmpty(entity.getPassword());
     }
 }

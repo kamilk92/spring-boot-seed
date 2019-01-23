@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import pl.kkp.core.db.entity.User;
 import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
+import pl.kkp.core.db.service.validate.action.UserEmailFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserEmailUniqueValidator;
 import pl.kkp.core.db.service.validate.action.UserLoginFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserLoginUniqueValidator;
@@ -24,15 +25,18 @@ public class UserServiceValidatorConfiguration {
     private Map<ValidatorActionType, List<? extends ValidatorAction<User>>> actions;
 
     @Autowired
-    public UserServiceValidatorConfiguration(UserLoginFieldSetValidator userLoginFieldSetValidator,
-                                             UserPasswordFieldSetValidator userPasswordFieldSetValidator,
-                                             UserLoginUniqueValidator userLoginUniqueValidator,
-                                             UserEmailUniqueValidator userEmailUniqueValidator,
-                                             UserPasswordLengthValidator userPasswordLengthValidator) {
+    public UserServiceValidatorConfiguration(
+            UserEmailFieldSetValidator userEmailFieldSetValidator,
+            UserLoginFieldSetValidator userLoginFieldSetValidator,
+            UserPasswordFieldSetValidator userPasswordFieldSetValidator,
+            UserLoginUniqueValidator userLoginUniqueValidator,
+            UserEmailUniqueValidator userEmailUniqueValidator,
+            UserPasswordLengthValidator userPasswordLengthValidator) {
         this.actions = new LinkedHashMap<ValidatorActionType, List<? extends ValidatorAction<User>>>() {
             {
                 put(ValidatorActionType.SAVE,
                         Arrays.asList(
+                                userEmailFieldSetValidator,
                                 userLoginFieldSetValidator,
                                 userPasswordFieldSetValidator,
                                 userLoginUniqueValidator,

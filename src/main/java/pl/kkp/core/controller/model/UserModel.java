@@ -11,6 +11,12 @@ public class UserModel {
     public UserModel() {
     }
 
+    public UserModel(String login, String password, String email) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+    }
+
     public UserModel(Integer id, String login, String password, String nick, String email, Boolean isEnabled) {
         this.id = id;
         this.login = login;

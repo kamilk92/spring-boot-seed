@@ -16,7 +16,7 @@ public abstract class FieldSetValidator<T> extends FieldValidatorAction<T> {
         }
     }
 
-    protected abstract boolean isFieldSet(T entity);
+    public abstract boolean isFieldSet(T entity);
 
     protected boolean isStringNotEmpty(String value) {
         return StringUtils.isNotEmpty(value);
