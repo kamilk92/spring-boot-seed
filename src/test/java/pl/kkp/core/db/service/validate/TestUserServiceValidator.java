@@ -12,7 +12,6 @@ import pl.kkp.core.db.service.validate.action.UserLoginFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserLoginUniqueValidator;
 import pl.kkp.core.db.service.validate.action.UserPasswordFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserPasswordLengthValidator;
-import pl.kkp.core.db.service.validate.action.ValidatorAction;
 import pl.kkp.core.db.service.validate.exception.FieldLengthTooLongException;
 import pl.kkp.core.db.service.validate.exception.FieldLengthTooShortException;
 import pl.kkp.core.db.service.validate.exception.FieldNotSetException;
@@ -127,6 +126,7 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
         mockDoNothingOnValidateMethod(userEmailFieldNotSetValidator, user, action);
         mockDoNothingOnValidateMethod(userLoginFieldSetValidator, user, action);
         mockDoNothingOnValidateMethod(userPasswordFieldSetValidator, user, action);
+        String validatedField = UserLoginUniqueValidator.VALIDATED_FIELD;
         mockDoCallRealFieldValidateMethod(userLoginUniqueValidator, user, action, validatedField);
         mockDoNothingOnValidateMethod(userEmailUniqueValidator, user, action);
         mockDoNothingOnValidateMethod(userPasswordLengthValidator, user, action);
@@ -136,7 +136,6 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
             userServiceValidator.validate(user, action);
         });
 
-        String validadd tedField = UserLoginUniqueValidator.VALIDATED_FIELD;
         String expectedMessage = buildUniqueValueValidationMessage(action, validatedField);
         assertExceptionMessage(expectedMessage, NotUniqueValueException.class, thrown);
     }
