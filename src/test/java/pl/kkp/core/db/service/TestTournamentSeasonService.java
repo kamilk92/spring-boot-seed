@@ -7,15 +7,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
-import pl.kkp.core.db.service.validate.action.TournamentIdFieldSetInTournamentSeason;
+import pl.kkp.core.db.service.validate.action.TournamentSeasonTournamentIdFieldSetValidator;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
 
 public class TestTournamentSeasonService extends SpringBootBaseTest {
@@ -30,7 +30,7 @@ public class TestTournamentSeasonService extends SpringBootBaseTest {
     @Before
     public void setUp() {
         Integer seasonId = null;
-        LocalDate beginDate = LocalDate.now();
+        LocalDateTime beginDate = LocalDateTime.now();
         Boolean isOpen = Boolean.TRUE;
         Tournament tournament = null;
         tournamentSeason = new TournamentSeason(seasonId, beginDate, isOpen, tournament);
@@ -45,6 +45,7 @@ public class TestTournamentSeasonService extends SpringBootBaseTest {
         TournamentSeason createdTournamentSeason = tournamentSeasonService.save(tournamentSeason);
 
         assertThat(createdTournamentSeason).isNotNull();
+        assertThat(createdTournamentSeason.getId()).isNotNull();
     }
 
     @Test
@@ -57,7 +58,7 @@ public class TestTournamentSeasonService extends SpringBootBaseTest {
         });
 
         String expectedMessage = buildFiledNotSetValidationMessage(
-                ValidatorActionType.SAVE, TournamentIdFieldSetInTournamentSeason.VALIDATED_TOURNAMENT_FIELD);
+                ValidatorActionType.SAVE, TournamentSeasonTournamentIdFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
     }
 }

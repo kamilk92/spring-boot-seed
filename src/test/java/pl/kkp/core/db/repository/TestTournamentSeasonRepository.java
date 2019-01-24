@@ -7,6 +7,7 @@ import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.testing.TestJpa;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -20,7 +21,7 @@ public class TestTournamentSeasonRepository extends TestJpa {
     @Test
     public void isCreateNewTournamentSeason() {
         Integer id = null;
-        LocalDate beginDate = LocalDate.now();
+        LocalDateTime beginDate = LocalDateTime.now();
         Boolean isOpen = Boolean.TRUE;
         Tournament tournament = null;
 
@@ -42,7 +43,7 @@ public class TestTournamentSeasonRepository extends TestJpa {
         assertThat(tournament.getId()).isNotNull();
 
         Integer seasonId = null;
-        LocalDate beginDate = LocalDate.now();
+        LocalDateTime beginDate = LocalDateTime.now();
         Boolean isOpen = Boolean.TRUE;
 
         TournamentSeason createdSeason = saveTournamentSeason(seasonId, beginDate, isOpen, tournament);
@@ -61,7 +62,7 @@ public class TestTournamentSeasonRepository extends TestJpa {
     }
 
     private TournamentSeason saveTournamentSeason(
-            Integer id, LocalDate beginDate, Boolean isOpen, Tournament tournament) {
+            Integer id, LocalDateTime beginDate, Boolean isOpen, Tournament tournament) {
         TournamentSeason season = new TournamentSeason(id, beginDate, isOpen, tournament);
         TournamentSeason createdSeason = tournamentSeasonRepository.save(season);
 

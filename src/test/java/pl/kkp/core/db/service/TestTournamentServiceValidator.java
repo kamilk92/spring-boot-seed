@@ -15,14 +15,11 @@ import pl.kkp.core.db.service.validate.exception.FieldLengthTooLongException;
 import pl.kkp.core.db.service.validate.exception.FieldNotSetException;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
-import pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks;
 import pl.kkp.core.util.RandomStringGenerator;
-
-import javax.transaction.NotSupportedException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.when;
-import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooLongValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.mockDoCallRealFieldLenValidateMethod;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;

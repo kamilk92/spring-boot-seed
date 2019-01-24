@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
-import pl.kkp.core.db.service.validate.action.TournamentIdFieldSetInTournamentSeason;
+import pl.kkp.core.db.service.validate.action.TournamentSeasonBeginDateFieldSetValidator;
+import pl.kkp.core.db.service.validate.action.TournamentSeasonTournamentExistValidator;
+import pl.kkp.core.db.service.validate.action.TournamentSeasonTournamentIdFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.ValidatorAction;
 
 import java.util.Arrays;
@@ -20,10 +22,20 @@ public class TournamentSeasonServiceValidatorConfiguration {
 
     @Autowired
     public TournamentSeasonServiceValidatorConfiguration(
-            TournamentIdFieldSetInTournamentSeason tournamentIdFieldSetInTournamentSeason) {
+            TournamentSeasonTournamentIdFieldSetValidator tournamentSeasonTournamentIdFieldSetValidator,
+            TournamentSeasonBeginDateFieldSetValidator seasonBeginDateFieldSetValidator,
+            TournamentSeasonTournamentExistValidator tournamentSeasonTournamentExistValidator
+    ) {
         this.actions = new LinkedHashMap<ValidatorActionType, List<? extends ValidatorAction<TournamentSeason>>>() {
             {
-                put(ValidatorActionType.SAVE, Arrays.asList(tournamentIdFieldSetInTournamentSeason));
+                put(
+                        ValidatorActionType.SAVE,
+                        Arrays.asList(
+                                tournamentSeasonTournamentIdFieldSetValidator,
+                                seasonBeginDateFieldSetValidator,
+                                tournamentSeasonTournamentExistValidator
+                        )
+                );
             }
         }
         ;

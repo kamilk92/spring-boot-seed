@@ -4,11 +4,11 @@ import org.springframework.stereotype.Component;
 import pl.kkp.core.db.entity.TournamentSeason;
 
 @Component
-public class TournamentIdFieldSetInTournamentSeason extends FieldSetValidator<TournamentSeason> {
-    public static final String VALIDATED_TOURNAMENT_FIELD = "tournament.id";
+public class TournamentSeasonTournamentIdFieldSetValidator extends FieldSetValidator<TournamentSeason> {
+    public static final String VALIDATED_FIELD = "tournament.id";
 
-    public TournamentIdFieldSetInTournamentSeason() {
-        super(VALIDATED_TOURNAMENT_FIELD);
+    public TournamentSeasonTournamentIdFieldSetValidator() {
+        super(VALIDATED_FIELD);
     }
 
     @Override

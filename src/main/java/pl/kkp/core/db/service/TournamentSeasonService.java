@@ -2,6 +2,7 @@ package pl.kkp.core.db.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.repository.TournamentSeasonRepository;
 import pl.kkp.core.db.service.validate.ServiceValidator;
@@ -23,6 +24,14 @@ public class TournamentSeasonService
     }
 
     public TournamentSeason save(TournamentSeason season) throws ValidationException {
+        tournamentSeasonServiceValidator.validate(season, ValidatorActionType.SAVE);
+
+        return super.save(season);
+    }
+
+    public TournamentSeason save(TournamentSeason season, Integer tournamentId) throws ValidationException {
+        Tournament tournament = new Tournament(tournamentId);
+        season.setTournament(tournament);
         tournamentSeasonServiceValidator.validate(season, ValidatorActionType.SAVE);
 
         return super.save(season);

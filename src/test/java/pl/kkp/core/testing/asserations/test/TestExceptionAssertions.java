@@ -1,6 +1,5 @@
 package pl.kkp.core.testing.asserations.test;
 
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.Before;
 import org.junit.Test;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
@@ -8,9 +7,9 @@ import pl.kkp.core.db.service.validate.exception.ValidationException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
 
-public class TestExceptionAsserations {
+public class TestExceptionAssertions {
     private static final ValidatorActionType ACTION_TYPE = ValidatorActionType.SAVE;
     private static final String FAILURE_REASON = "Missing field.";
 

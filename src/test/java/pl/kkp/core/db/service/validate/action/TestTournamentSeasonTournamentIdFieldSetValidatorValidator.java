@@ -9,18 +9,18 @@ import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.FieldNotSetException;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
 
-public class TestTournamentIdFieldSetInTournamentSeasonValidator extends SpringBootBaseTest {
+public class TestTournamentSeasonTournamentIdFieldSetValidatorValidator extends SpringBootBaseTest {
 
     private TournamentSeason tournamentSeason;
 
     @Autowired
-    private TournamentIdFieldSetInTournamentSeason tournamentIdFieldSetInTournamentSeason;
+    private TournamentSeasonTournamentIdFieldSetValidator tournamentSeasonTournamentIdFieldSetValidator;
 
     @Before
     public void setUp() {
@@ -32,17 +32,17 @@ public class TestTournamentIdFieldSetInTournamentSeasonValidator extends SpringB
         ValidatorActionType action = ValidatorActionType.SAVE;
 
         Throwable thrown = catchThrowable(() -> {
-            tournamentIdFieldSetInTournamentSeason.validate(tournamentSeason, action);
+            tournamentSeasonTournamentIdFieldSetValidator.validate(tournamentSeason, action);
         });
 
         String expectedMessage = buildFiledNotSetValidationMessage(
-                action, TournamentIdFieldSetInTournamentSeason.VALIDATED_TOURNAMENT_FIELD);
+                action, TournamentSeasonTournamentIdFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, FieldNotSetException.class, thrown);
     }
 
     public TournamentSeason setUpTournamentSeason() {
         Integer id = null;
-        LocalDate beginDate = LocalDate.now();
+        LocalDateTime beginDate = LocalDateTime.now();
         Boolean isOpen = Boolean.TRUE;
         Tournament targetTournament = null;
 

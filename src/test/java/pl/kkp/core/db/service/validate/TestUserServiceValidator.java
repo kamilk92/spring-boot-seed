@@ -22,7 +22,7 @@ import pl.kkp.core.util.RandomStringGenerator;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.when;
-import static pl.kkp.core.testing.asserations.ExceptionAssertaions.assertExceptionMessage;
+import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooLongValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooShortValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.mockDoCallRealFieldLenValidateMethod;
@@ -199,7 +199,6 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
         User user = new User();
         String userPass = passwordGenerator.generate();
         user.setPassword(userPass);
-
 
         ValidatorActionType action = ValidatorActionType.SAVE;
         mockDoNothingOnValidateMethod(userEmailFieldNotSetValidator, user, action);

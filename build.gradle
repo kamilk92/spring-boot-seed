@@ -1,6 +1,7 @@
 buildscript {
     ext {
         dozerVersion = "5.5.1"
+        dozerJdk8SupportVersion = "1.0.5"
         h2Version = "1.4.194"
         mysqlConnectorVersion = "8.0.13"
         springVersion = "2.1.2.RELEASE"

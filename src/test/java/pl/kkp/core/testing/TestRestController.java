@@ -8,11 +8,14 @@ import org.springframework.http.ResponseEntity;
 import pl.kkp.core.controller.model.BaseRsp;
 import pl.kkp.core.controller.model.UserModel;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
+import pl.kkp.core.db.service.validate.action.EntityExistServiceValidator;
 import pl.kkp.core.db.service.validate.action.FieldLengthValidator;
+import pl.kkp.core.testing.mocks.EntityExistServiceValidatorMocks;
 import pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks;
 import pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static pl.kkp.core.testing.mocks.EntityExistServiceValidatorMocks.buildEntityExistValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooLongValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooShortValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
@@ -45,6 +48,17 @@ public abstract class TestRestController extends SpringBootBaseTest {
     protected void assertResponseStatusCodeOk(ResponseEntity response) {
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    protected void assertReturn400HttpCodeWhenEntityNotExist(
+            Object entity,
+            ValidatorActionType action,
+            String endpointPath,
+            String validatedField,
+            String validatedParam
+    ) {
+        String expectedMsg = buildEntityExistValidationMessage(action, validatedField, validatedParam);
+        assertReturn400HttpCodeWithMessage(entity, endpointPath, expectedMsg);
     }
 
     protected void assertReturn400HttpCodeWhenFieldNotSet(

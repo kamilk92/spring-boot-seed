@@ -8,13 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class TournamentSeason {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private LocalDate beginDate;
+    private LocalDateTime beginDate;
     private Boolean isOpen;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tournament_id", nullable = false)
@@ -23,7 +24,21 @@ public class TournamentSeason {
     public TournamentSeason() {
     }
 
-    public TournamentSeason(Integer id, LocalDate beginDate, Boolean isOpen, Tournament tournament) {
+    public TournamentSeason(LocalDateTime beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public TournamentSeason(Tournament tournament) {
+        this.tournament = tournament;
+    }
+
+    public TournamentSeason(LocalDateTime beginDate, Boolean isOpen, Tournament tournament) {
+        this.beginDate = beginDate;
+        this.isOpen = isOpen;
+        this.tournament = tournament;
+    }
+
+    public TournamentSeason(Integer id, LocalDateTime beginDate, Boolean isOpen, Tournament tournament) {
         this.id = id;
         this.beginDate = beginDate;
         this.isOpen = isOpen;
@@ -38,11 +53,11 @@ public class TournamentSeason {
         this.id = id;
     }
 
-    public LocalDate getBeginDate() {
+    public LocalDateTime getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(LocalDate beginDate) {
+    public void setBeginDate(LocalDateTime beginDate) {
         this.beginDate = beginDate;
     }
 

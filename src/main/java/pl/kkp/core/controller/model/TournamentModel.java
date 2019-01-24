@@ -10,6 +10,10 @@ public class TournamentModel {
     public TournamentModel() {
     }
 
+    public TournamentModel(Integer id) {
+        this.id = id;
+    }
+
     public TournamentModel(Integer id, String name, String description) {
         this.id = id;
         this.name = name;
