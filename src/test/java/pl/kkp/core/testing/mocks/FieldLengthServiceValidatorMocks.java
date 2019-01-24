@@ -1,5 +1,6 @@
 package pl.kkp.core.testing.mocks;
 
+import pl.kkp.core.controller.model.UserModel;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.action.FieldLengthValidator;
 import pl.kkp.core.db.service.validate.exception.FieldLengthTooLongException;
@@ -21,17 +22,25 @@ public class FieldLengthServiceValidatorMocks {
     }
 
     public static String buildFieldTooLongValidationMessage(
-            ValidatorActionType action, String fieldName, int actualLen, int maxLen) {
+            ValidatorActionType action, FieldLengthValidator validator, int actualLen) {
+        String validatedField = validator.getValidatedField();
+        int maxLen = validator.getMaxFieldLengthInclusive();
+
+        return buildFieldTooLongValidationMessage(action, validatedField, maxLen, actualLen);
+    }
+
+    public static String buildFieldTooLongValidationMessage(
+            ValidatorActionType action, String validatedField, int maxLen, int actualLen) {
         String failureReason = String.format(
-                FieldLengthTooLongException.FAILURE_REASON_FMT, fieldName, actualLen, maxLen);
+                FieldLengthTooLongException.FAILURE_REASON_FMT, validatedField, actualLen, maxLen);
 
         return ServiceValidatorMocks.buildValidationMessage(action, failureReason);
     }
 
     public static String buildFieldTooShortValidationMessage(
-            ValidatorActionType action, String fieldName, int actualLen, int maxLen) {
+            ValidatorActionType action, String fieldName, int actualLen, int minLen) {
         String failureReason = String.format(
-                FieldLengthTooShortException.FAILURE_REASON_FMT, fieldName, actualLen, maxLen);
+                FieldLengthTooShortException.FAILURE_REASON_FMT, fieldName, actualLen, minLen);
 
         return ServiceValidatorMocks.buildValidationMessage(action, failureReason);
     }

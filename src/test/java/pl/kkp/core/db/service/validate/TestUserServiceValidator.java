@@ -218,8 +218,9 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
             userServiceValidator.validate(user, action);
         });
 
+        int actualPassLen = userPass.length();
         String expectedMessage = buildFieldTooLongValidationMessage(
-                action, validatedField, userPass.length(), maxPasswordLen);
+                action, userPasswordLengthValidator, actualPassLen);
         assertExceptionMessage(expectedMessage, FieldLengthTooLongException.class, thrown);
     }
 }

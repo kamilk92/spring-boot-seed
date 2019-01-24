@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
+import pl.kkp.core.db.service.validate.action.TournamentNameFieldLengthValidator;
 import pl.kkp.core.db.service.validate.action.TournamentNameFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.TournamentNameUniqueValidator;
 import pl.kkp.core.db.service.validate.action.ValidatorAction;
@@ -20,6 +21,7 @@ public class TournamentServiceValidatorConfiguration {
 
     public TournamentServiceValidatorConfiguration(
             TournamentNameFieldSetValidator tournamentNameFieldSetValidator,
+            TournamentNameFieldLengthValidator tournamentNameFieldLengthValidator,
             TournamentNameUniqueValidator tournamentNameUnique) {
         this.actions = new LinkedHashMap<ValidatorActionType, List<? extends ValidatorAction<Tournament>>>() {
             {
@@ -27,6 +29,7 @@ public class TournamentServiceValidatorConfiguration {
                         ValidatorActionType.SAVE,
                         Arrays.asList(
                                 tournamentNameFieldSetValidator,
+                                tournamentNameFieldLengthValidator,
                                 tournamentNameUnique
                         ));
             }

@@ -13,6 +13,6 @@ public class TournamentNameFieldSetValidator extends FieldSetValidator<Tournamen
 
     @Override
     public boolean isFieldSet(Tournament entity) {
-        return entity.getName() != null;
+        return isStringNotEmpty(entity.getName());
     }
 }

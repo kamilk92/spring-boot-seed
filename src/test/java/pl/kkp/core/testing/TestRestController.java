@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import pl.kkp.core.controller.model.BaseRsp;
 import pl.kkp.core.controller.model.UserModel;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
+import pl.kkp.core.db.service.validate.action.FieldLengthValidator;
 import pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks;
 import pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks;
 
@@ -59,14 +60,25 @@ public abstract class TestRestController extends SpringBootBaseTest {
     }
 
     protected void assertReturn400HttpCodeWhenFieldTooLong(
+            FieldLengthValidator validator,
             Object entity,
             ValidatorActionType action,
             String endpointPath,
-            String fieldName,
-            int actualPassLen,
-            int maxPassLen
+            int actualPassLen
     ) {
-        String expectedMessage = buildFieldTooLongValidationMessage(action, fieldName, actualPassLen, maxPassLen);
+        String expectedMessage = buildFieldTooLongValidationMessage(action, validator, actualPassLen);
+        assertReturn400HttpCodeWithMessage(entity, endpointPath, expectedMessage);
+    }
+
+    protected void assertReturn400HttpCodeWhenFieldTooLong(
+            Object entity,
+            ValidatorActionType action,
+            String endpointPath,
+            String validatedField,
+            int actualLen,
+            int maxLen
+    ) {
+        String expectedMessage = buildFieldTooLongValidationMessage(action, validatedField, maxLen, actualLen);
         assertReturn400HttpCodeWithMessage(entity, endpointPath, expectedMessage);
     }
 
