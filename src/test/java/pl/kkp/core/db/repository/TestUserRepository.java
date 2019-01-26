@@ -2,8 +2,13 @@ package pl.kkp.core.db.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.kkp.core.db.entity.Role;
 import pl.kkp.core.db.entity.User;
+import pl.kkp.core.db.entity.UserRole;
 import pl.kkp.core.testing.TestJpa;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -33,6 +38,26 @@ public class TestUserRepository extends TestJpa {
         User foundUser = userRepository.findByLogin(login);
 
         assertThat(foundUser).isEqualTo(createdUser);
+    }
+
+    @Test
+    public void isFetchUserRoles() {
+        String login = "test-admin";
+
+        User user = userRepository.findByLogin(login);
+
+        List<UserRole> userRoles = user.getRoles();
+        assertThat(userRoles).isNotNull();
+        assertThat(userRoles.size()).isEqualTo(2);
+
+        List<String> userRoleNames = userRoles.stream()
+                .map(UserRole::getRole)
+                .map(Role::getAuthority)
+                .collect(Collectors.toList());
+
+        assertThat(userRoleNames)
+                .asList()
+                .containsOnly("ROLE_USER", "ROLE_ADMIN");
     }
 
     @Test

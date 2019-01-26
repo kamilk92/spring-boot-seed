@@ -6,7 +6,6 @@ import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.repository.TournamentSeasonRepository;
 import pl.kkp.core.db.service.validate.ServiceValidator;
-import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 
 @Service
@@ -19,21 +18,21 @@ public class TournamentSeasonService
     private ServiceValidator<TournamentSeason> tournamentSeasonServiceValidator;
 
     @Autowired
-    public TournamentSeasonService(TournamentSeasonRepository entityRepository) {
-        super(entityRepository);
+    public TournamentSeasonService(
+            TournamentSeasonRepository entityRepository,
+            ServiceValidator<TournamentSeason> tournamentSeasonServiceValidator
+    ) {
+        super(entityRepository, tournamentSeasonServiceValidator);
     }
 
     public TournamentSeason save(TournamentSeason season) throws ValidationException {
-        tournamentSeasonServiceValidator.validate(season, ValidatorActionType.SAVE);
-
-        return super.save(season);
+        return validateAndSave(season);
     }
 
     public TournamentSeason save(TournamentSeason season, Integer tournamentId) throws ValidationException {
         Tournament tournament = new Tournament(tournamentId);
         season.setTournament(tournament);
-        tournamentSeasonServiceValidator.validate(season, ValidatorActionType.SAVE);
 
-        return super.save(season);
+        return validateAndSave(season);
     }
 }

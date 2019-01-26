@@ -2,10 +2,13 @@ package pl.kkp.core.db.entity;
 
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class User implements Serializable {
@@ -16,7 +19,10 @@ public class User implements Serializable {
     private String password;
     private String nick;
     private String email;
+
     private Boolean isEnabled;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserRole> roles;
 
     public User() {
     }
@@ -89,5 +95,13 @@ public class User implements Serializable {
 
     public void setEnabled(Boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public List<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<UserRole> roles) {
+        this.roles = roles;
     }
 }

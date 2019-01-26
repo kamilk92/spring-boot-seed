@@ -1,7 +1,10 @@
 package pl.kkp.core.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import pl.kkp.core.controller.model.BaseRsp;
 import pl.kkp.core.controller.model.UserModel;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.action.UserEmailFieldSetValidator;
@@ -10,14 +13,20 @@ import pl.kkp.core.db.service.validate.action.UserLoginFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserLoginUniqueValidator;
 import pl.kkp.core.db.service.validate.action.UserPasswordFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.UserPasswordLengthValidator;
+import pl.kkp.core.security.basic.http.BasicCredentials;
 import pl.kkp.core.testing.TestRestController;
+import pl.kkp.core.testing.asserations.RestResponseAssertions;
 import pl.kkp.core.util.RandomStringGenerator;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.setAllowComparingPrivateFields;
 
 
 public class TestUserController extends TestRestController {
     private static final String ENDPOINT_PATH = "/user";
+
+    @Autowired
+    private BasicCredentials adminCredentials;
 
     private RandomStringGenerator passwordGenerator;
 
@@ -37,10 +46,10 @@ public class TestUserController extends TestRestController {
         UserModel userToCreate = new UserModel(id, login, pass, nick, email, isEnabled);
         String endpointPath = getEndpointPath("");
 
-        ResponseEntity<UserModel> createdUserRsp = restTemplate.postForEntity(
-                endpointPath, userToCreate, UserModel.class);
+        ResponseEntity<UserModel> createdUserRsp = authorizedPost(adminCredentials, endpointPath, userToCreate,
+                UserModel.class);
 
-        assertResponseStatusCodeOk(createdUserRsp);
+        RestResponseAssertions.assertResponseStatusCodeOk(createdUserRsp);
 
         UserModel createdUser = createdUserRsp.getBody();
 
@@ -59,7 +68,8 @@ public class TestUserController extends TestRestController {
         String endpointPath = String.format("login/%s", searchedLogin);
         endpointPath = getEndpointPath(endpointPath);
 
-        UserModel foundUser = restTemplate.getForObject(endpointPath, UserModel.class);
+        ResponseEntity<UserModel> response = authorizedGet(adminCredentials, endpointPath, UserModel.class);
+        UserModel foundUser = response.getBody();
 
         assertThat(foundUser).isNotNull();
         assertThat(foundUser.getLogin()).isEqualTo(searchedLogin);
@@ -74,9 +84,11 @@ public class TestUserController extends TestRestController {
 
         ValidatorActionType action = ValidatorActionType.SAVE;
         String endpointPath = getEndpointPath("");
-        String fieldName = UserLoginUniqueValidator.VALIDATED_FIELD;
 
-        assertReturn400HttpCodeWhenFieldNotUnique(userToCreate, action, endpointPath, fieldName);
+        ResponseEntity<BaseRsp> response = authorizedPost(adminCredentials, endpointPath, userToCreate, BaseRsp.class);
+
+        String validatedField = UserLoginUniqueValidator.VALIDATED_FIELD;
+        RestResponseAssertions.assertReturn400HttpCodeWhenFieldNotUnique(action, response, validatedField);
     }
 
     @Test
@@ -86,11 +98,13 @@ public class TestUserController extends TestRestController {
         userToCreate.setEmail("test-admin@domain.com");
         userToCreate.setPassword("secret");
 
-        ValidatorActionType action = ValidatorActionType.SAVE;
         String endpointPath = getEndpointPath("");
-        String fieldName = UserEmailUniqueValidator.VALIDATED_FIELD;
 
-        assertReturn400HttpCodeWhenFieldNotUnique(userToCreate, action, endpointPath, fieldName);
+        ResponseEntity<BaseRsp> response = authorizedPost(adminCredentials, endpointPath, userToCreate, BaseRsp.class);
+
+        ValidatorActionType action = ValidatorActionType.SAVE;
+        String validatedField = UserEmailUniqueValidator.VALIDATED_FIELD;
+        RestResponseAssertions.assertReturn400HttpCodeWhenFieldNotUnique(action, response, validatedField);
     }
 
     @Test
@@ -100,11 +114,14 @@ public class TestUserController extends TestRestController {
         userToCreate.setEmail("");
         userToCreate.setPassword("secret");
 
-        ValidatorActionType action = ValidatorActionType.SAVE;
         String endpointPath = getEndpointPath("");
-        String validatedFieldName = UserEmailFieldSetValidator.VALIDATED_FIELD;
 
-        assertReturn400HttpCodeWhenFieldNotSet(userToCreate, action, endpointPath, validatedFieldName);
+        ResponseEntity<BaseRsp> response = authorizedPost(
+                adminCredentials, endpointPath, userToCreate, BaseRsp.class);
+
+        ValidatorActionType action = ValidatorActionType.SAVE;
+        String validatedField = UserEmailFieldSetValidator.VALIDATED_FIELD;
+        RestResponseAssertions.assertReturn400HttpCodeWhenFieldNotSet(action, response, validatedField);
     }
 
     @Test
@@ -114,11 +131,13 @@ public class TestUserController extends TestRestController {
         userToCreate.setEmail("user12879@domain.com");
         userToCreate.setPassword("");
 
-        ValidatorActionType action = ValidatorActionType.SAVE;
         String endpointPath = getEndpointPath("");
-        String validatedFieldName = UserPasswordFieldSetValidator.VALIDATED_FIELD;
 
-        assertReturn400HttpCodeWhenFieldNotSet(userToCreate, action, endpointPath, validatedFieldName);
+        ResponseEntity<BaseRsp> response = authorizedPost(adminCredentials, endpointPath, userToCreate, BaseRsp.class);
+
+        ValidatorActionType action = ValidatorActionType.SAVE;
+        String validatedField = UserPasswordFieldSetValidator.VALIDATED_FIELD;
+        RestResponseAssertions.assertReturn400HttpCodeWhenFieldNotSet(action, response, validatedField);
     }
 
     @Test
@@ -128,11 +147,13 @@ public class TestUserController extends TestRestController {
         String password = "secret";
         UserModel userToCreate = new UserModel(login, password, email);
 
-        ValidatorActionType action = ValidatorActionType.SAVE;
         String endpointPath = getEndpointPath("");
-        String validatedFieldName = UserLoginFieldSetValidator.VALIDATED_FIELD;
 
-        assertReturn400HttpCodeWhenFieldNotSet(userToCreate, action, endpointPath, validatedFieldName);
+        ResponseEntity<BaseRsp> response = authorizedPost(adminCredentials, endpointPath, userToCreate, BaseRsp.class);
+
+        ValidatorActionType action = ValidatorActionType.SAVE;
+        String validatedField = UserLoginFieldSetValidator.VALIDATED_FIELD;
+        RestResponseAssertions.assertReturn400HttpCodeWhenFieldNotSet(action, response, validatedField);
     }
 
     @Test
@@ -142,14 +163,16 @@ public class TestUserController extends TestRestController {
         String password = passwordGenerator.generate();
         UserModel userToCreate = new UserModel(login, password, email);
 
-        ValidatorActionType action = ValidatorActionType.SAVE;
         String endpointPath = getEndpointPath("");
-        String validatedFieldName = UserPasswordLengthValidator.VALIDATED_FIELD;
-        int maxPassLen = UserPasswordLengthValidator.MAX_PASSWORD_LENGTH;
-        int passLen = password.length();
 
-        assertReturn400HttpCodeWhenFieldTooLong(
-                userToCreate, action, endpointPath, validatedFieldName, passLen, maxPassLen);
+        ResponseEntity<BaseRsp> response = authorizedPost(adminCredentials, endpointPath, userToCreate, BaseRsp.class);
+
+        ValidatorActionType action = ValidatorActionType.SAVE;
+        String validatedField = UserPasswordLengthValidator.VALIDATED_FIELD;
+        int passLen = password.length();
+        int maxPassLen = UserPasswordLengthValidator.MAX_PASSWORD_LENGTH;
+        RestResponseAssertions.assertReturn400HttpCodeWhenFieldTooLong(
+                action, response, validatedField, passLen, maxPassLen);
     }
 
     @Test
@@ -159,13 +182,15 @@ public class TestUserController extends TestRestController {
         String password = "***";
         UserModel userToCreate = new UserModel(login, password, email);
 
-        ValidatorActionType action = ValidatorActionType.SAVE;
         String endpointPath = getEndpointPath("");
-        String validatedFieldName = UserPasswordLengthValidator.VALIDATED_FIELD;
-        int minPassLen = UserPasswordLengthValidator.MIN_PASSWORD_LENGTH;
-        int passLen = password.length();
 
-        assertReturn400HttpCodeWhenFieldTooShort(
-                userToCreate, action, endpointPath, validatedFieldName, passLen, minPassLen);
+        ResponseEntity<BaseRsp> response = authorizedPost(adminCredentials, endpointPath, userToCreate, BaseRsp.class);
+
+        ValidatorActionType action = ValidatorActionType.SAVE;
+        String validatedField = UserPasswordLengthValidator.VALIDATED_FIELD;
+        int passLen = password.length();
+        int minPassLen = UserPasswordLengthValidator.MIN_PASSWORD_LENGTH;
+        RestResponseAssertions.assertReturn400HttpCodeWhenFieldTooShort(
+                action, response, validatedField, passLen, minPassLen);
     }
 }

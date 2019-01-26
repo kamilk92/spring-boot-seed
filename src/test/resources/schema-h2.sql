@@ -1,6 +1,11 @@
 CREATE DATABASE competitions;
 
+DROP TABLE IF EXISTS tournament_match;
+DROP TABLE IF EXISTS team;
+DROP TABLE IF EXISTS tournament_season;
 DROP TABLE IF EXISTS tournament;
+DROP TABLE IF EXISTS user_role;
+DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS user;
 
 CREATE TABLE user {
@@ -9,8 +14,21 @@ CREATE TABLE user {
     PASSWORD varchar(128),
     NICK varchar(32),
     EMAIL varchar(64),
-    IS_ENABLED BOOL tinyint(1)
+    IS_ENABLED BOOL tinyint(1) default 0
 };
+
+CREATE TABLE role(
+	ID int primary key,
+    AUTHORITY varchar(64)
+);
+
+CREATE TABLE user_role(
+	ID int primary key,
+    ID_USER int,
+    ID_ROLE int,
+    foreign key (ID_USER) references user(id),
+    foreign key (ID_ROLE) references role(id)
+);
 
 CREATE TABLE tournament{
     ID int primary key,
