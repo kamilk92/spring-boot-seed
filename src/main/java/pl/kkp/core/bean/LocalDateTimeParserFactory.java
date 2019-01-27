@@ -1,29 +1,15 @@
 package pl.kkp.core.bean;
 
-import org.springframework.beans.factory.FactoryBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import pl.kkp.core.util.date.LocalDateTimeParser;
 
-public class LocalDateTimeParserFactory implements FactoryBean<LocalDateTimeParser> {
-    private static final boolean IS_SINGLETON = true;
+@Configuration
+public class LocalDateTimeParserFactory {
+    public static final String DATE_FMT = "dd-MM-yyyy HH:mm:ss";
 
-    private String dateFormat;
-
-    public LocalDateTimeParserFactory(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-    @Override
-    public LocalDateTimeParser getObject() throws Exception {
-        return new LocalDateTimeParser(dateFormat);
-    }
-
-    @Override
-    public Class<?> getObjectType() {
-        return LocalDateTimeParser.class;
-    }
-
-    @Override
-    public boolean isSingleton() {
-        return IS_SINGLETON;
+    @Bean
+    public LocalDateTimeParser localDateTimeParser() throws Exception {
+        return new LocalDateTimeParser(DATE_FMT);
     }
 }

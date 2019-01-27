@@ -1,29 +1,15 @@
 package pl.kkp.core.bean;
 
-import org.springframework.beans.factory.FactoryBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import pl.kkp.core.util.date.DateParser;
 
-public class DateParserFactory implements FactoryBean<DateParser> {
-    public static final boolean IS_SINGLETON = true;
+@Configuration
+public class DateParserFactory {
+    public static final String DATE_FMT = "dd-MM-yyyy HH:mm:ss";
 
-    private String dateFmt;
-
-    public DateParserFactory(String dateFmt) {
-        this.dateFmt = dateFmt;
-    }
-
-    @Override
-    public DateParser getObject() throws Exception {
-        return new DateParser(dateFmt);
-    }
-
-    @Override
-    public Class<?> getObjectType() {
-        return null;
-    }
-
-    @Override
-    public boolean isSingleton() {
-        return false;
+    @Bean
+    public DateParser dateParser() throws Exception {
+        return new DateParser(DATE_FMT);
     }
 }

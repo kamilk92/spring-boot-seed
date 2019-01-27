@@ -1,22 +1,24 @@
 package pl.kkp.core.bean;
 
-
 import org.dozer.DozerBeanMapper;
-import org.springframework.beans.factory.FactoryBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-public class DozerBeanMapperFactory implements FactoryBean<DozerBeanMapper> {
-    @Override
-    public DozerBeanMapper getObject() throws Exception {
-        return new DozerBeanMapper();
-    }
+import java.util.Arrays;
+import java.util.List;
 
-    @Override
-    public Class<?> getObjectType() {
-        return DozerBeanMapper.class;
-    }
+@Configuration
+public class DozerBeanMapperFactory {
 
-    @Override
-    public boolean isSingleton() {
-        return true;
+    private static final List<String> MAPPING_FILES = Arrays.asList(
+            "dozer/converters/dozer-mappings.xml"
+    );
+
+    @Bean
+    public DozerBeanMapper dozerBeanMapper() {
+        DozerBeanMapper beanMapper = new DozerBeanMapper();
+        beanMapper.setMappingFiles(MAPPING_FILES);
+
+        return beanMapper;
     }
 }

@@ -29,9 +29,8 @@ public class EndpointPathBuilder {
     private String appendSlashIfMissing(String path) {
         if (path.startsWith("/")) {
             return path;
-        }
-        if (StringUtils.isNotEmpty(path)) {
-            return "/" + path;
+        } else if (StringUtils.isNotEmpty(path)) {
+            return "/".concat(path);
         }
 
         return "";

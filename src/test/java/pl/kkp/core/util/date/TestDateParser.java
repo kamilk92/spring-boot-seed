@@ -2,13 +2,12 @@ package pl.kkp.core.util.date;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.kkp.core.bean.DateParserConfiguration;
+import pl.kkp.core.bean.DateParserFactory;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -30,7 +29,7 @@ public class TestDateParser extends SpringBootBaseTest {
     }
 
     private String dateToStr(Date date) {
-        DateFormat dateFormat = new SimpleDateFormat(DateParserConfiguration.DATE_FMT);
+        DateFormat dateFormat = new SimpleDateFormat(DateParserFactory.DATE_FMT);
 
         return dateFormat.format(date);
     }

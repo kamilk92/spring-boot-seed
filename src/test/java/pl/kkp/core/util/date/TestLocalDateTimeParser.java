@@ -2,7 +2,7 @@ package pl.kkp.core.util.date;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.kkp.core.bean.LocalDateTimeParserConfiguration;
+import pl.kkp.core.bean.LocalDateTimeParserFactory;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ public class TestLocalDateTimeParser extends SpringBootBaseTest {
     private DateTimeFormatter dateTimeFormatter;
 
     public TestLocalDateTimeParser() {
-        dateTimeFormatter = DateTimeFormatter.ofPattern(LocalDateTimeParserConfiguration.DATE_FMT);
+        dateTimeFormatter = DateTimeFormatter.ofPattern(LocalDateTimeParserFactory.DATE_FMT);
     }
 
     @Test
