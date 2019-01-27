@@ -49,11 +49,15 @@ CREATE TABLE team{
     NAME varchar(64)
 };
 
-CREATE TABLE match{
+CREATE TABLE tournament_match(
     ID int primary key,
     BEGIN_DATE date,
+    HOME_SCORE int,
+    AWAY_SCORE int,
     HOME_TEAM int,
     AWAY_TEAM int,
+    TOURNAMENT_SEASON int,
     foreign key(HOME_TEAM) references team(ID),
-    foreign key(AWAY_TEAM) references team(ID)
-};
+    foreign key(AWAY_TEAM) references team(ID),
+    foreign key(TOURNAMENT_SEASON) references tournament_season(id)
+);

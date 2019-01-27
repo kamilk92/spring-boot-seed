@@ -50,7 +50,7 @@ public class UserServiceValidatorFactory {
     }
 
     @Bean
-    public ServiceValidator<User> userServiceValidator() throws Exception {
+    public ServiceValidator<User> userServiceValidator() {
         return new ServiceValidator<>(actions);
     }
 }

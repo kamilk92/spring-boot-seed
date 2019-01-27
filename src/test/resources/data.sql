@@ -7,3 +7,5 @@ INSERT INTO user_role(ID, ID_USER, ID_ROLE) values(0, 0, 0);
 INSERT INTO user_role(ID, ID_USER, ID_ROLE) values(1, 0, 1);
 
 INSERT INTO tournament(ID, NAME, DESCRIPTION) VALUES(0, 'Test tournament', 'This is test tournament');
+
+INSERT INTO team(ID, NAME) VALUES(0, 'Test team');
