@@ -27,4 +27,5 @@ public class TournamentService extends JpaRepositoryService<Tournament, Integer,
     public Tournament save(Tournament tournament) throws ValidationException {
         return validateAndSave(tournament);
     }
+
 }

@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS user;
 
 CREATE TABLE user {
-    ID int primary key,
+    ID int auto_increment primary key,
     LOGIN varchar(32),
     PASSWORD varchar(128),
     NICK varchar(32),
@@ -18,12 +18,12 @@ CREATE TABLE user {
 };
 
 CREATE TABLE role(
-	ID int primary key,
+	ID int auto_increment primary key,
     AUTHORITY varchar(64)
 );
 
 CREATE TABLE user_role(
-	ID int primary key,
+	ID int auto_increment primary key,
     ID_USER int,
     ID_ROLE int,
     foreign key (ID_USER) references user(id),
@@ -31,13 +31,13 @@ CREATE TABLE user_role(
 );
 
 CREATE TABLE tournament{
-    ID int primary key,
+    ID int auto_increment auto_increment primary key,
     NAME varchar(128),
     DESCRIPTION varchar(1024)
 };
 
 CREATE TABLE tournament_season{
-    ID int primary key,
+    ID int auto_increment primary key,
     BEGIN_DATE date,
     IS_OPEN tinyint(1),
     TOURNAMENT_ID int,
@@ -45,12 +45,12 @@ CREATE TABLE tournament_season{
 };
 
 CREATE TABLE team{
-    ID int primary key,
+    ID int auto_increment primary key,
     NAME varchar(64)
 };
 
 CREATE TABLE tournament_match(
-    ID int primary key,
+    ID int auto_increment primary key,
     BEGIN_DATE date,
     HOME_SCORE int,
     AWAY_SCORE int,

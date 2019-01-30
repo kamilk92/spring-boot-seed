@@ -1,5 +1,6 @@
 package pl.kkp.core.testing.mocks;
 
+import pl.kkp.core.db.service.exception.EntityWithIdNotFoundException;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.action.ValidatorAction;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
@@ -10,6 +11,10 @@ import static org.mockito.Mockito.doNothing;
 public class ServiceValidatorMocks {
     public static String buildValidationMessage(ValidatorActionType action, String failureReason) {
         return String.format(ValidationException.EXCEPTION_MESSAGE, action, failureReason);
+    }
+
+    public static String buildEntityWithIdNotFoundValidationMessage(Number id) {
+        return String.format(EntityWithIdNotFoundException.EXCEPTION_MESSAGE_FMT, id);
     }
 
     public static <T> void mockDoCallRealValidateMethod(

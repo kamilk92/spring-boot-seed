@@ -1,12 +1,15 @@
 package pl.kkp.core.controller;
 
+import org.apache.coyote.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import pl.kkp.core.controller.model.BaseRsp;
 import pl.kkp.core.controller.model.TournamentModel;
 import pl.kkp.core.controller.model.TournamentSeasonModel;
+import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.action.TournamentSeasonBeginDateFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.TournamentSeasonTournamentExistValidator;
@@ -18,6 +21,10 @@ import pl.kkp.core.util.date.LocalDateTimeParser;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static pl.kkp.core.testing.asserations.RestResponseAssertions.assertResponseStatusCodeOk;
 
 public class TestTournamentSeasonController extends TestRestController {
 
@@ -51,7 +58,7 @@ public class TestTournamentSeasonController extends TestRestController {
         ResponseEntity<TournamentSeasonModel> tournamentSeason = authorizedPost(adminCredentials, endpointPath,
                 season, TournamentSeasonModel.class);
 
-        RestResponseAssertions.assertResponseStatusCodeOk(tournamentSeason);
+        assertResponseStatusCodeOk(tournamentSeason);
     }
 
     @Test
@@ -78,6 +85,24 @@ public class TestTournamentSeasonController extends TestRestController {
         String validatedParam = TournamentSeasonTournamentExistValidator.VALIDATED_PARAMETER;
         RestResponseAssertions.assertReturn400HttpCodeWhenEntityNotExist(
                 action, response, validatedField, validatedParam);
+    }
+
+    @Test
+    public void isReturnAllTournamentSeasons() {
+        Integer tournamentId = 0;
+        String endpointPath = String.format("/%d/seasons", tournamentId);
+        endpointPath = getEndpointPath(endpointPath);
+        ParameterizedTypeReference<List<TournamentSeasonModel>> rspType =
+                new ParameterizedTypeReference<List<TournamentSeasonModel>>() {};
+
+        ResponseEntity<List<TournamentSeasonModel>> response =
+                authorizedGet(adminCredentials, endpointPath, rspType);
+
+        assertResponseStatusCodeOk(response);
+        List<TournamentSeasonModel> responseBody = response.getBody();
+        assertThat(responseBody)
+                .extracting("id")
+                .contains(0, 1);
     }
 
     private String getSeasonEndpointPath(int tournamentId) {

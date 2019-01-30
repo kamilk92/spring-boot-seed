@@ -1,8 +1,8 @@
 package pl.kkp.core.controller;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import pl.kkp.core.controller.model.BaseRsp;
 import pl.kkp.core.controller.model.UserModel;
@@ -18,8 +18,11 @@ import pl.kkp.core.testing.TestRestController;
 import pl.kkp.core.testing.asserations.RestResponseAssertions;
 import pl.kkp.core.util.RandomStringGenerator;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.setAllowComparingPrivateFields;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static pl.kkp.core.testing.asserations.RestResponseAssertions.assertResponseStatusCodeOk;
 
 
 public class TestUserController extends TestRestController {
@@ -49,7 +52,7 @@ public class TestUserController extends TestRestController {
         ResponseEntity<UserModel> createdUserRsp = authorizedPost(adminCredentials, endpointPath, userToCreate,
                 UserModel.class);
 
-        RestResponseAssertions.assertResponseStatusCodeOk(createdUserRsp);
+        assertResponseStatusCodeOk(createdUserRsp);
 
         UserModel createdUser = createdUserRsp.getBody();
 
@@ -65,14 +68,37 @@ public class TestUserController extends TestRestController {
     @Test
     public void isGetUserByLogin() {
         String searchedLogin = "test-admin";
-        String endpointPath = String.format("login/%s", searchedLogin);
-        endpointPath = getEndpointPath(endpointPath);
+        String loginQueryParam = String.format("?login=%s", searchedLogin);
+        String endpointPath = ENDPOINT_PATH.concat(loginQueryParam);
+        endpointPath = getServerPath(endpointPath);
 
         ResponseEntity<UserModel> response = authorizedGet(adminCredentials, endpointPath, UserModel.class);
-        UserModel foundUser = response.getBody();
 
+        UserModel foundUser = response.getBody();
         assertThat(foundUser).isNotNull();
         assertThat(foundUser.getLogin()).isEqualTo(searchedLogin);
+        assertThat(foundUser.getRoles())
+                .isNotEmpty()
+                .flatExtracting("roles")
+                .extracting("authority")
+                .contains("ROLE_ADMIN", "ROLE_USER");
+    }
+
+    @Test
+    public void isGetAllUsers() {
+        String endpointPath = getServerPath("/users");
+        ParameterizedTypeReference<ArrayList<UserModel>> rspType =
+                new ParameterizedTypeReference<ArrayList<UserModel>>() {};
+
+        ResponseEntity<ArrayList<UserModel>> response = authorizedGet(adminCredentials, endpointPath, rspType);
+        assertResponseStatusCodeOk(response);
+
+        List<UserModel> userModels = response.getBody();
+        assertThat(userModels).isNotEmpty()
+                .size()
+                .isGreaterThanOrEqualTo(1);
+        assertThat(userModels).extracting("login")
+                .contains("test-admin");
     }
 
     @Test

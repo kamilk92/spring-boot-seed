@@ -2,6 +2,8 @@ package pl.kkp.core.controller;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.kkp.core.controller.model.BaseRsp;
 import pl.kkp.core.controller.model.TournamentModel;
@@ -16,7 +18,15 @@ import pl.kkp.core.testing.asserations.RestResponseAssertions;
 import pl.kkp.core.util.RandomStringGenerator;
 import pl.kkp.core.util.StringGenerator;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static pl.kkp.core.testing.asserations.RestResponseAssertions.assertResponseStatusCode;
+import static pl.kkp.core.testing.asserations.RestResponseAssertions.assertResponseStatusCodeOk;
+import static pl.kkp.core.testing.asserations.RestResponseAssertions.assertReturn400HttpCodeWhenFieldNotSet;
+import static pl.kkp.core.testing.asserations.RestResponseAssertions.assertReturn400HttpCodeWhenFieldNotUnique;
+import static pl.kkp.core.testing.asserations.RestResponseAssertions.assertReturn400HttpCodeWhenFieldTooLong;
 
 public class TestTournamentController extends TestRestController {
 
@@ -36,7 +46,7 @@ public class TestTournamentController extends TestRestController {
     @Test
     public void isCreateNewTournament() {
         Integer id = null;
-        String name = "Championship";
+        String name = "Championship -202";
         String description = "England second league";
         TournamentModel tournament = new TournamentModel(id, name, description);
         String endpointPath = getEndpointPath("");
@@ -44,7 +54,7 @@ public class TestTournamentController extends TestRestController {
         ResponseEntity<TournamentModel> createdTournamentRsp = authorizedPost(
                 adminCredentials, endpointPath, tournament, TournamentModel.class);
 
-        RestResponseAssertions.assertResponseStatusCodeOk(createdTournamentRsp);
+        assertResponseStatusCodeOk(createdTournamentRsp);
 
         TournamentModel createdTournament = createdTournamentRsp.getBody();
         assertThat(createdTournament).isNotNull();
@@ -65,7 +75,7 @@ public class TestTournamentController extends TestRestController {
 
         String validatedField = TournamentNameFieldSetValidator.VALIDATED_FIELD;
         ValidatorActionType action = ValidatorActionType.SAVE;
-        RestResponseAssertions.assertReturn400HttpCodeWhenFieldNotSet(action, response, validatedField);
+        assertReturn400HttpCodeWhenFieldNotSet(action, response, validatedField);
     }
 
     @Test
@@ -79,7 +89,7 @@ public class TestTournamentController extends TestRestController {
 
         ValidatorActionType action = ValidatorActionType.SAVE;
         String validatedField = TournamentNameUniqueValidator.VALIDATED_FIELD;
-        RestResponseAssertions.assertReturn400HttpCodeWhenFieldNotUnique(action, response, validatedField);
+        assertReturn400HttpCodeWhenFieldNotUnique(action, response, validatedField);
     }
 
     @Test
@@ -94,7 +104,46 @@ public class TestTournamentController extends TestRestController {
         ValidatorActionType action = ValidatorActionType.SAVE;
         int nameLength = tournamentName.length();
         int maxNameLength = TournamentNameFieldLengthValidator.MAX_NAME_LENGTH;
-        RestResponseAssertions.assertReturn400HttpCodeWhenFieldTooLong(
-                action, response, validatedField, nameLength, maxNameLength);
+        assertReturn400HttpCodeWhenFieldTooLong(action, response, validatedField, nameLength, maxNameLength);
+    }
+
+    @Test
+    public void isGetAllTournaments() {
+        String endpointPath = "/tournaments";
+        endpointPath = getServerPath(endpointPath);
+        ParameterizedTypeReference<List<TournamentModel>> rspType =
+                new ParameterizedTypeReference<List<TournamentModel>>() {};
+        ResponseEntity<List<TournamentModel>> response = authorizedGet(adminCredentials, endpointPath, rspType);
+
+        assertResponseStatusCodeOk(response);
+        List<TournamentModel> responseBody = response.getBody();
+        assertThat(responseBody).isNotNull();
+        assertThat(responseBody)
+                .extracting("id")
+                .contains(0, 1);
+    }
+
+    @Test
+    public void isGetTournamentById() {
+        Integer tournamentId = 0;
+        String endpointPath = getEndpointPath(tournamentId.toString());
+
+        ResponseEntity<Tournament> response = authorizedGet(adminCredentials, endpointPath, Tournament.class);
+
+        assertResponseStatusCodeOk(response);
+
+        Tournament tournament = response.getBody();
+        assertThat(tournament).isNotNull();
+        assertThat(tournament.getId()).isEqualTo(tournamentId);
+    }
+
+    @Test
+    public void isReturn204HttpCodeWhenTournamentWithGivenIdNotExist() {
+        Integer tournamentId = Integer.MAX_VALUE;
+        String endpointPath = getEndpointPath(tournamentId.toString());
+
+        ResponseEntity<BaseRsp> response = authorizedGet(adminCredentials, endpointPath, BaseRsp.class);
+
+        assertResponseStatusCode(response, HttpStatus.NO_CONTENT);
     }
 }

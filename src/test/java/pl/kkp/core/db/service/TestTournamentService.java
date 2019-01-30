@@ -1,21 +1,30 @@
 package pl.kkp.core.db.service;
 
+import org.assertj.core.api.OptionalIntAssert;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.repository.TournamentRepository;
+import pl.kkp.core.db.service.exception.EntityWithIdNotFoundException;
 import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
+import pl.kkp.core.testing.asserations.ExceptionAssertions;
+import pl.kkp.core.testing.mocks.ServiceValidatorMocks;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
+import static pl.kkp.core.testing.mocks.ServiceValidatorMocks.buildEntityWithIdNotFoundValidationMessage;
 
 public class TestTournamentService extends SpringBootBaseTest {
     @Mock
@@ -54,4 +63,30 @@ public class TestTournamentService extends SpringBootBaseTest {
         int expectedInvocationCnt = 1;
         verify(tournamentRepository, times(expectedInvocationCnt)).save(tournamentToSave);
     }
+
+    @Test
+    public void isFindTournamentById() throws EntityWithIdNotFoundException {
+        Integer tournamentId = 0;
+        Optional<Tournament> foundResult = Optional.of(mockSavedTournament);
+        when(tournamentRepository.findById(tournamentId)).thenReturn(foundResult);
+
+        Tournament tournament = tournamentService.findById(tournamentId);
+
+        assertThat(tournament).isEqualTo(mockSavedTournament);
+    }
+
+    @Test
+    public void isRaiseExceptionWhenTournamentWithGivenIdNotExist() {
+        Integer tournamentId = Integer.MAX_VALUE;
+        Optional<Tournament> foundResult = Optional.empty();
+        when(tournamentRepository.findById(tournamentId)).thenReturn(foundResult);
+
+        Throwable thrown = catchThrowable(() -> {
+            tournamentService.findById(tournamentId);
+        });
+
+        String expectedMessage = buildEntityWithIdNotFoundValidationMessage(tournamentId);
+        assertExceptionMessage(expectedMessage, EntityWithIdNotFoundException.class, thrown);
+    }
+
 }

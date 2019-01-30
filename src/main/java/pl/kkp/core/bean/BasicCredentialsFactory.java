@@ -9,10 +9,10 @@ import pl.kkp.core.security.basic.http.BasicCredentials;
 
 @Configuration
 public class BasicCredentialsFactory {
-    @Value("${security.test.basic.username}")
+    @Value("${security.test.basic.username:#{null}}")
     private String testAdminUserName;
 
-    @Value("${security.test.basic.password}")
+    @Value("${security.test.basic.password:#{null}}")
     private String testAdminPassword;
 
     @Bean

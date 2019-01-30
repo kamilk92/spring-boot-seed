@@ -41,7 +41,7 @@ public class TestUserService extends SpringBootBaseTest {
 
     @Test
     public void isFindUserByLogin() {
-        String searchedLogin = "user";
+        String searchedLogin = "test-admin";
         when(userRepository.findByLogin(searchedLogin)).thenReturn(user);
 
         User foundUser = userService.findByLogin(searchedLogin);

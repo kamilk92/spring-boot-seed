@@ -61,4 +61,10 @@ public class TestTournamentSeasonService extends SpringBootBaseTest {
                 ValidatorActionType.SAVE, TournamentSeasonTournamentIdFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
     }
+
+    @Test
+    public void isGetAllTournamentSeasonsById(){
+        Integer tournamentId = 0;
+        tournamentSeasonService.findByTournamentId(tournamentId);
+    }
 }

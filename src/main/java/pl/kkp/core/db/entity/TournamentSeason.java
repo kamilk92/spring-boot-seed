@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 public class TournamentSeason {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private LocalDateTime beginDate;
     private Boolean isOpen;

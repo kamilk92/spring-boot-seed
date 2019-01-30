@@ -9,10 +9,12 @@ import javax.persistence.Id;
 @Entity
 public class Tournament {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(unique = true, nullable = false)
+
+    @Column(nullable = false)
     private String name;
+
     private String description;
 
     public Tournament() {

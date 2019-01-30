@@ -6,10 +6,11 @@ import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.testing.TestJpa;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
 
 public class TestTournamentSeasonRepository extends TestJpa {
     @Autowired
@@ -23,7 +24,8 @@ public class TestTournamentSeasonRepository extends TestJpa {
         Integer id = null;
         LocalDateTime beginDate = LocalDateTime.now();
         Boolean isOpen = Boolean.TRUE;
-        Tournament tournament = null;
+        Integer tournamentId = 0;
+        Tournament tournament = new Tournament(tournamentId);
 
         TournamentSeason createdSeason = saveTournamentSeason(id, beginDate, isOpen, tournament);
 
@@ -52,6 +54,18 @@ public class TestTournamentSeasonRepository extends TestJpa {
         assertThat(createdSeason.getId()).isNotNull();
         assertThat(createdSeason.getTournament()).isNotNull();
         assertThat(createdSeason.getTournament().getId()).isEqualTo(tournament.getId());
+    }
+
+    @Test
+    public void isReturnTournamentSeasonsByTournamentId() {
+        Integer tournamentId = 0;
+
+        List<TournamentSeason> tournamentSeasons = tournamentSeasonRepository.findByTournamentId(tournamentId);
+
+        assertThat(tournamentSeasons.size()).isGreaterThanOrEqualTo(2);
+        assertThat(tournamentSeasons)
+                .extracting("id")
+                .contains(0, 1);
     }
 
     private Tournament saveTournament(Integer id, String name, String description) {

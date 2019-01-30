@@ -4,10 +4,12 @@ import org.apache.commons.lang3.StringUtils;
 
 public class EndpointPathBuilder {
 
+    private String hostUrlFormat;
     private String endpointPathFormat;
 
     public EndpointPathBuilder(String hostUrl, String endpointPath) {
-        this.endpointPathFormat = buildEndpointBasePathFormat(hostUrl, endpointPath);
+        this.hostUrlFormat = buildHostUrlFormat(hostUrl);
+        this.endpointPathFormat = buildEndpointBasePathFormat(hostUrlFormat, endpointPath);
     }
 
     public String buildEndpointPath(String path, int port) {
@@ -16,14 +18,24 @@ public class EndpointPathBuilder {
         return String.format(endpointPathFormat, port, path);
     }
 
-    private String buildEndpointBasePathFormat(String hostUrl, String endpointPath) {
+    public String buildServerPath(String path, int port) {
+        String hostUrl = String.format(hostUrlFormat, port);
+        path = appendSlashIfMissing(path);
+
+        return hostUrl.concat(path);
+    }
+
+    private String buildEndpointBasePathFormat(String hostUrlFormat, String endpointPath) {
         endpointPath = appendSlashIfMissing(endpointPath);
 
-        return hostUrl
-                .concat(":")
-                .concat("%d")
+        return hostUrlFormat
                 .concat(endpointPath)
                 .concat("%s");
+    }
+
+    private String buildHostUrlFormat(String hostUrl) {
+        return hostUrl.concat(":")
+                .concat("%d");
     }
 
     private String appendSlashIfMissing(String path) {

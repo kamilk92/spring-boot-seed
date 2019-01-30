@@ -1,21 +1,29 @@
 package pl.kkp.core.testing.asserations;
 
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.kkp.core.controller.model.BaseRsp;
+import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
+import pl.kkp.core.testing.mocks.ServiceValidatorMocks;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static pl.kkp.core.testing.mocks.EntityExistServiceValidatorMocks.buildEntityExistValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooLongValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooShortValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
+import static pl.kkp.core.testing.mocks.ServiceValidatorMocks.buildEntityWithIdNotFoundValidationMessage;
 import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValueValidationMessage;
 
 public class RestResponseAssertions {
-    public static void assertResponseStatusCodeOk(ResponseEntity response) {
+    public static void assertResponseStatusCode(ResponseEntity response, HttpStatus status) {
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getStatusCode()).isEqualTo(status);
+    }
+
+    public static void assertResponseStatusCodeOk(ResponseEntity response) {
+        assertResponseStatusCode(response, HttpStatus.OK);
     }
 
     public static <T> void assertReturn400HttpCodeWhenEntityNotExist(
@@ -48,14 +56,14 @@ public class RestResponseAssertions {
         assertReturn400HttpCodeWithMessage(expectedMessage, response);
     }
 
-    private static <T> void assertReturn400HttpCodeWithMessage(String message, ResponseEntity<T> response) {
-        assertResponseStatusCode(response, HttpStatus.BAD_REQUEST);
+    private static <T> void assertReturn204HttpCodeWithMessage(String message, ResponseEntity<T> response) {
+        assertResponseStatusCode(response, HttpStatus.NO_CONTENT);
         assertBaseRspMessage(response, message);
     }
 
-    private static void assertResponseStatusCode(ResponseEntity response, HttpStatus status) {
-        assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(status);
+    private static <T> void assertReturn400HttpCodeWithMessage(String message, ResponseEntity<T> response) {
+        assertResponseStatusCode(response, HttpStatus.BAD_REQUEST);
+        assertBaseRspMessage(response, message);
     }
 
     private static <T> void assertBaseRspMessage(ResponseEntity<T> response, String expectedMsg) {

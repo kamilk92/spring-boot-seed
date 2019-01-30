@@ -33,7 +33,7 @@ CREATE TABLE user_role(
 );
 
 CREATE TABLE tournament(
-    ID int primary key,
+    ID int primary key auto_increment,
     NAME varchar(128),
     DESCRIPTION varchar(1024)
 );

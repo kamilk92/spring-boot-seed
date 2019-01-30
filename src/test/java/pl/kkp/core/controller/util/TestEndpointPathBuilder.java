@@ -46,4 +46,15 @@ public class TestEndpointPathBuilder {
         String expectedPath = String.format("%s:%d%s%s", BASE_URL, PORT, ENDPOINT_PATH, endpointPath);
         assertThat(builtPath).isEqualTo(expectedPath);
     }
+
+    @Test
+    public void isBuildServerPath() {
+        String endpointPath = "/users";
+
+        String buildPath = endpointPathBuilder.buildServerPath(endpointPath, PORT);
+
+        String expectedPath = String.format("%s:%d%s", BASE_URL, PORT, endpointPath);
+
+        assertThat(buildPath).isEqualTo(expectedPath);
+    }
 }

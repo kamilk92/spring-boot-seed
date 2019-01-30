@@ -1,6 +1,7 @@
 package pl.kkp.core.testing;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import pl.kkp.core.controller.util.EndpointPathBuilder;
 import pl.kkp.core.security.basic.http.BasicAuthorizedTestRestTemplate;
@@ -23,6 +24,11 @@ public abstract class TestRestController extends SpringBootBaseTest {
         return restTemplate.authorizedGet(endpointPath, null, responseClass, credentials);
     }
 
+    protected <T> ResponseEntity<T> authorizedGet(
+            BasicCredentials credentials, String endpointPath, ParameterizedTypeReference<T> responseClass) {
+        return restTemplate.authorizedGet(endpointPath, null, responseClass, credentials);
+    }
+
     protected <T> ResponseEntity<T> authorizedPost(
             BasicCredentials credentials, String endpointPath, Object entity, Class<T> responseClass) {
         return restTemplate.authorizedPost(endpointPath, entity, responseClass, credentials);
@@ -30,5 +36,9 @@ public abstract class TestRestController extends SpringBootBaseTest {
 
     protected String getEndpointPath(String path) {
         return endpointPathBuilder.buildEndpointPath(path, portNumber);
+    }
+
+    protected String getServerPath(String path) {
+        return endpointPathBuilder.buildServerPath(path, portNumber);
     }
 }

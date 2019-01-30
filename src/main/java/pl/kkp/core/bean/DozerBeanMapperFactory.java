@@ -11,13 +11,13 @@ import java.util.List;
 public class DozerBeanMapperFactory {
 
     private static final List<String> MAPPING_FILES = Arrays.asList(
-            "dozer/converters/dozer-mappings.xml"
+            "dozer/converters/dozer-mappings.xml",
+            "dozer/converters/dozer-global-config.xml"
     );
 
     @Bean
     public DozerBeanMapper dozerBeanMapper() {
-        DozerBeanMapper beanMapper = new DozerBeanMapper();
-        beanMapper.setMappingFiles(MAPPING_FILES);
+        DozerBeanMapper beanMapper = new DozerBeanMapper(MAPPING_FILES);
 
         return beanMapper;
     }

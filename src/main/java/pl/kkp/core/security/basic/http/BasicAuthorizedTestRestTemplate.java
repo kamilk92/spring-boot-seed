@@ -1,6 +1,7 @@
 package pl.kkp.core.security.basic.http;
 
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,16 @@ public class BasicAuthorizedTestRestTemplate extends TestRestTemplate {
         return authorizedRequest(url, method, entity, rspType, credentials);
     }
 
+    public <T> ResponseEntity<T> authorizedGet(
+            String url,
+            Object entity,
+            ParameterizedTypeReference<T> rspType,
+            BasicCredentials credentials) {
+        HttpMethod method = HttpMethod.GET;
+
+        return authorizedRequest(url, method, entity, rspType, credentials);
+    }
+
     public <T> ResponseEntity<T> authorizedPost(
             String url,
             Object entity,
@@ -30,7 +41,7 @@ public class BasicAuthorizedTestRestTemplate extends TestRestTemplate {
         return authorizedRequest(url, method, entity, rspType, credentials);
     }
 
-    public <T> ResponseEntity<T> authorizedRequest(
+    private <T> ResponseEntity<T> authorizedRequest(
             String url,
             HttpMethod method,
             Object entity,
@@ -40,6 +51,34 @@ public class BasicAuthorizedTestRestTemplate extends TestRestTemplate {
         HttpEntity<?> entityWithHeaders = new HttpEntity<>(entity, headers);
 
         return exchange(url, method, entityWithHeaders, rspType);
+    }
+
+    private <T> ResponseEntity<T> authorizedRequest(
+            String url,
+            HttpMethod method,
+            Object entity,
+            ParameterizedTypeReference<T> rspType,
+            BasicCredentials credentials) {
+        HttpHeaders headers = buildHeaderWithBasicAuthorization(credentials);
+        HttpEntity<?> entityWithHeaders = new HttpEntity<>(entity, headers);
+
+        return exchange(url, method, entityWithHeaders, rspType);
+    }
+
+    private <T> ResponseEntity<T> exchange(
+            String url,
+            HttpMethod method,
+            HttpEntity<?> entityWithHeaders,
+            Class<T> rspType) {
+        return super.exchange(url, method, entityWithHeaders, rspType);
+    }
+
+    private <T> ResponseEntity<T> exchange(
+            String url,
+            HttpMethod method,
+            HttpEntity<?> entityWithHeaders,
+            ParameterizedTypeReference<T> rspType) {
+        return super.exchange(url, method, entityWithHeaders, rspType);
     }
 
     private HttpHeaders buildHeaderWithBasicAuthorization(BasicCredentials credentials) {
