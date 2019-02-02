@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
-import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFieldNotSetValidationMessage;
 
 public class TestTournamentSeasonService extends SpringBootBaseTest {
     @MockBean
@@ -57,7 +57,7 @@ public class TestTournamentSeasonService extends SpringBootBaseTest {
             tournamentSeasonService.save(tournamentSeason);
         });
 
-        String expectedMessage = buildFiledNotSetValidationMessage(
+        String expectedMessage = buildFieldNotSetValidationMessage(
                 ValidatorActionType.SAVE, TournamentSeasonTournamentIdFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, ValidationException.class, thrown);
     }

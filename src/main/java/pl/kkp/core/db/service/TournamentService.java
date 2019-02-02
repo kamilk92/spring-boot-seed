@@ -9,8 +9,6 @@ import pl.kkp.core.db.service.validate.exception.ValidationException;
 
 @Service
 public class TournamentService extends JpaRepositoryService<Tournament, Integer, TournamentRepository> {
-    @Autowired
-    private ServiceValidator<Tournament> tournamentServiceValidator;
 
     @Autowired
     public TournamentService(

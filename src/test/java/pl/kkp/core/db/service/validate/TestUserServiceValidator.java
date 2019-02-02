@@ -26,7 +26,7 @@ import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptio
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooLongValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooShortValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.mockDoCallRealFieldLenValidateMethod;
-import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFieldNotSetValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.mockDoCallRealFieldValidateMethod;
 import static pl.kkp.core.testing.mocks.ServiceValidatorMocks.mockDoNothingOnValidateMethod;
 import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValueValidationMessage;
@@ -91,13 +91,13 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
             userServiceValidator.validate(user, action);
         });
 
-        String expectedMsg = buildFiledNotSetValidationMessage(action, validatedField);
+        String expectedMsg = buildFieldNotSetValidationMessage(action, validatedField);
         assertExceptionMessage(expectedMsg, FieldNotSetException.class, thrown);
     }
 
     @Test
     public void isRaiseExceptionWhenUserPasswordNotSetOnSaveAction() throws ValidationException {
-        String login = "login";
+        String login = "getUserByLogin";
         User user = new User(login);
         ValidatorActionType action = ValidatorActionType.SAVE;
         String validatedField = UserPasswordFieldSetValidator.VALIDATED_FIELD;
@@ -113,13 +113,13 @@ public class TestUserServiceValidator extends SpringBootBaseTest {
             userServiceValidator.validate(user, action);
         });
 
-        String expectedMsg = buildFiledNotSetValidationMessage(action, validatedField);
+        String expectedMsg = buildFieldNotSetValidationMessage(action, validatedField);
         assertExceptionMessage(expectedMsg, FieldNotSetException.class, thrown);
     }
 
     @Test
     public void isRaiseExceptionWhenUserLoginIsNotUnique() throws ValidationException {
-        String login = "login";
+        String login = "getUserByLogin";
         User user = new User(login);
         ValidatorActionType action = ValidatorActionType.SAVE;
 

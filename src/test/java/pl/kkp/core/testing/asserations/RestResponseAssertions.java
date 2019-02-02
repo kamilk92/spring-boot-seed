@@ -9,7 +9,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static pl.kkp.core.testing.mocks.EntityExistServiceValidatorMocks.buildEntityExistValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooLongValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooShortValidationMessage;
-import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFieldNotSetValidationMessage;
 import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValueValidationMessage;
 
 public class RestResponseAssertions {
@@ -30,7 +30,7 @@ public class RestResponseAssertions {
 
     public static <T> void assertReturn400HttpCodeWhenFieldNotSet(
             ValidatorActionType action, ResponseEntity<T> response, String validatedField) {
-        String expectedMsg = buildFiledNotSetValidationMessage(action, validatedField);
+        String expectedMsg = buildFieldNotSetValidationMessage(action, validatedField);
         assertReturn400HttpCodeWithMessage(expectedMsg, response);
     }
 

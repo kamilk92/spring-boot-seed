@@ -10,7 +10,7 @@ import pl.kkp.core.testing.SpringBootBaseTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
-import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFieldNotSetValidationMessage;
 
 public class TestUserLoginFieldSetValidator extends SpringBootBaseTest {
 
@@ -26,7 +26,7 @@ public class TestUserLoginFieldSetValidator extends SpringBootBaseTest {
             userLoginFieldSet.validate(user, action);
         });
 
-        String expectedMessage = buildFiledNotSetValidationMessage(
+        String expectedMessage = buildFieldNotSetValidationMessage(
                 action, UserLoginFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, FieldNotSetException.class, thrown);
     }
@@ -34,7 +34,7 @@ public class TestUserLoginFieldSetValidator extends SpringBootBaseTest {
     @Test
     public void isPassWhenUserLoginSet() throws ValidationException {
         User user = new User();
-        String login = "login";
+        String login = "getUserByLogin";
         user.setLogin(login);
         ValidatorActionType action = ValidatorActionType.SAVE;
 

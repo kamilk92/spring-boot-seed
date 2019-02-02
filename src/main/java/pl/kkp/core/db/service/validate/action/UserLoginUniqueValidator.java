@@ -7,7 +7,7 @@ import pl.kkp.core.db.repository.UserRepository;
 
 @Component
 public class UserLoginUniqueValidator extends UniqueValueValidator<User> {
-    public static final String VALIDATED_FIELD = "user.login";
+    public static final String VALIDATED_FIELD = "user.getUserByLogin";
 
     @Autowired
     private UserRepository userRepository;

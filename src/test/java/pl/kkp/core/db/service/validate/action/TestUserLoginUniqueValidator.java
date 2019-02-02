@@ -55,7 +55,7 @@ public class TestUserLoginUniqueValidator extends SpringBootBaseTest {
     }
 
     private User setUpUser() {
-        String userLogin = "login";
+        String userLogin = "getUserByLogin";
         return new User(userLogin);
     }
 }

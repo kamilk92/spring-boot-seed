@@ -56,7 +56,7 @@ public class TestUserEmailUniqueValidator extends SpringBootBaseTest {
 
     private User setUpUser() {
         User user = new User();
-        user.setLogin("login");
+        user.setLogin("getUserByLogin");
 
         return user;
     }

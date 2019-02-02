@@ -68,7 +68,7 @@ public class TestUserController extends TestRestController {
     @Test
     public void isGetUserByLogin() {
         String searchedLogin = "test-admin";
-        String loginQueryParam = String.format("?login=%s", searchedLogin);
+        String loginQueryParam = String.format("?getUserByLogin=%s", searchedLogin);
         String endpointPath = ENDPOINT_PATH.concat(loginQueryParam);
         endpointPath = getServerPath(endpointPath);
 
@@ -96,7 +96,7 @@ public class TestUserController extends TestRestController {
         assertThat(userModels).isNotEmpty()
                 .size()
                 .isGreaterThanOrEqualTo(1);
-        assertThat(userModels).extracting("login")
+        assertThat(userModels).extracting("getUserByLogin")
                 .contains("test-admin");
         userModels.forEach(singleUserModel -> {
             assertThat(singleUserModel.getAuthorities())

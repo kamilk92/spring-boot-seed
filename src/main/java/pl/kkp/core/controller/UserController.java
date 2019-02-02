@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/user")
-    public UserModel login(@RequestParam String login) {
+    public UserModel getUserByLogin(@RequestParam String login) {
         User user = userService.findByLogin(login);
 
         return dozerBeanMapper.map(user, UserModel.class);

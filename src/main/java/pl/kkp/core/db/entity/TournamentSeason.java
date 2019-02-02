@@ -23,6 +23,10 @@ public class TournamentSeason {
     public TournamentSeason() {
     }
 
+    public TournamentSeason(Integer id) {
+        this.id = id;
+    }
+
     public TournamentSeason(LocalDateTime beginDate) {
         this.beginDate = beginDate;
     }

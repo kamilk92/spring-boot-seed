@@ -10,7 +10,7 @@ import pl.kkp.core.testing.SpringBootBaseTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
-import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFieldNotSetValidationMessage;
 
 public class TestUserEmailFieldSetValidator extends SpringBootBaseTest {
 
@@ -35,7 +35,7 @@ public class TestUserEmailFieldSetValidator extends SpringBootBaseTest {
             userEmailFieldSet.validate(user, action);
         });
 
-        String expectedMessage = buildFiledNotSetValidationMessage(
+        String expectedMessage = buildFieldNotSetValidationMessage(
                 action, UserEmailFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, FieldNotSetException.class, thrown);
     }

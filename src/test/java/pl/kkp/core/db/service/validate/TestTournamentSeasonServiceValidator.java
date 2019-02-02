@@ -20,7 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
 import static pl.kkp.core.testing.mocks.EntityExistServiceValidatorMocks.buildEntityExistValidationMessage;
 import static pl.kkp.core.testing.mocks.EntityExistServiceValidatorMocks.mockDoCallIsEntityExistValidateMethod;
-import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFieldNotSetValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.mockDoCallIsFieldSetValidateMethod;
 import static pl.kkp.core.testing.mocks.ServiceValidatorMocks.mockDoNothingOnValidateMethod;
 
@@ -59,7 +59,7 @@ public class TestTournamentSeasonServiceValidator extends SpringBootBaseTest {
             tournamentSeasonServiceValidator.validate(season, action);
         });
 
-        String expectedMessage = buildFiledNotSetValidationMessage(
+        String expectedMessage = buildFieldNotSetValidationMessage(
                 ValidatorActionType.SAVE, TournamentSeasonTournamentIdFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, FieldNotSetException.class, thrown);
     }
@@ -84,7 +84,7 @@ public class TestTournamentSeasonServiceValidator extends SpringBootBaseTest {
             tournamentSeasonServiceValidator.validate(season, action);
         });
 
-        String expectedMessage = buildFiledNotSetValidationMessage(
+        String expectedMessage = buildFieldNotSetValidationMessage(
                 action, TournamentSeasonTournamentIdFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMessage, FieldNotSetException.class, thrown);
     }
@@ -104,7 +104,7 @@ public class TestTournamentSeasonServiceValidator extends SpringBootBaseTest {
             tournamentSeasonServiceValidator.validate(season, action);
         });
 
-        String expectedMsg = buildFiledNotSetValidationMessage(action, validatedField);
+        String expectedMsg = buildFieldNotSetValidationMessage(action, validatedField);
         assertExceptionMessage(expectedMsg, FieldNotSetException.class, thrown);
     }
 

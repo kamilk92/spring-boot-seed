@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
-import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFieldNotSetValidationMessage;
 
 public class TestTournamentSeasonBeginDateSet extends SpringBootBaseTest {
 
@@ -40,7 +40,7 @@ public class TestTournamentSeasonBeginDateSet extends SpringBootBaseTest {
         });
 
         String validatedFieldName = TournamentSeasonBeginDateFieldSetValidator.VALIDATED_FIELD;
-        String expectedMsg = buildFiledNotSetValidationMessage(action, validatedFieldName);
+        String expectedMsg = buildFieldNotSetValidationMessage(action, validatedFieldName);
         assertExceptionMessage(expectedMsg, FieldNotSetException.class, thrown);
     }
 

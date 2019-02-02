@@ -17,6 +17,10 @@ public class Team implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
 
+    public Team(Integer id) {
+        this.id = id;
+    }
+
     public Team(String name) {
         this.name = name;
     }

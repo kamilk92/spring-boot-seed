@@ -10,7 +10,7 @@ import pl.kkp.core.testing.SpringBootBaseTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
-import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
+import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFieldNotSetValidationMessage;
 
 public class TestUserPasswordFieldSetValidator extends SpringBootBaseTest {
     @Autowired
@@ -35,7 +35,7 @@ public class TestUserPasswordFieldSetValidator extends SpringBootBaseTest {
             userPasswordFieldSet.validate(user, action);
         });
 
-        String expectedMsg = buildFiledNotSetValidationMessage(action, UserPasswordFieldSetValidator.VALIDATED_FIELD);
+        String expectedMsg = buildFieldNotSetValidationMessage(action, UserPasswordFieldSetValidator.VALIDATED_FIELD);
         assertExceptionMessage(expectedMsg, FieldNotSetException.class, thrown);
     }
 }

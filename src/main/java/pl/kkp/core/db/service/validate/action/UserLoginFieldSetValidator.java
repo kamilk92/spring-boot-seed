@@ -5,7 +5,7 @@ import pl.kkp.core.db.entity.User;
 
 @Component
 public class UserLoginFieldSetValidator extends FieldSetValidator<User> {
-    public static final String VALIDATED_FIELD = "login";
+    public static final String VALIDATED_FIELD = "getUserByLogin";
 
     public UserLoginFieldSetValidator() {
         super(VALIDATED_FIELD);

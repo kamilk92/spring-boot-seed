@@ -13,11 +13,6 @@ import java.util.List;
 @Service
 public class TournamentSeasonService
         extends JpaRepositoryService<TournamentSeason, Integer, TournamentSeasonRepository> {
-    @Autowired
-    private TournamentService tournamentService;
-
-    @Autowired
-    private ServiceValidator<TournamentSeason> tournamentSeasonServiceValidator;
 
     @Autowired
     public TournamentSeasonService(

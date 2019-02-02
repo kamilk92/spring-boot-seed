@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 import static pl.kkp.core.testing.mocks.ServiceValidatorMocks.mockDoCallRealValidateMethod;
 
 public class FieldSetServiceValidatorMocks {
-    public static String buildFiledNotSetValidationMessage(ValidatorActionType action, String fieldName) {
+    public static String buildFieldNotSetValidationMessage(ValidatorActionType action, String fieldName) {
         String failureReason = String.format(FieldNotSetException.FAILURE_REASON_FMT, fieldName);
 
         return ServiceValidatorMocks.buildValidationMessage(action, failureReason);
