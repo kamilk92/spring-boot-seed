@@ -1,6 +1,5 @@
 package pl.kkp.core.testing.mocks;
 
-import pl.kkp.core.controller.model.UserModel;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.action.FieldLengthValidator;
 import pl.kkp.core.db.service.validate.exception.FieldLengthTooLongException;

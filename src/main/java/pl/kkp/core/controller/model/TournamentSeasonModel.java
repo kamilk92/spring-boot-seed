@@ -1,7 +1,6 @@
 package pl.kkp.core.controller.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class TournamentSeasonModel {
     private Integer id;

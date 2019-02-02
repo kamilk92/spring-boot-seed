@@ -1,19 +1,15 @@
 package pl.kkp.core.testing.asserations;
 
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.kkp.core.controller.model.BaseRsp;
-import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
-import pl.kkp.core.testing.mocks.ServiceValidatorMocks;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static pl.kkp.core.testing.mocks.EntityExistServiceValidatorMocks.buildEntityExistValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooLongValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks.buildFieldTooShortValidationMessage;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.buildFiledNotSetValidationMessage;
-import static pl.kkp.core.testing.mocks.ServiceValidatorMocks.buildEntityWithIdNotFoundValidationMessage;
 import static pl.kkp.core.testing.mocks.UniqueValueServiceValidatorMocks.buildUniqueValueValidationMessage;
 
 public class RestResponseAssertions {

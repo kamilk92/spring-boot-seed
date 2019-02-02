@@ -63,7 +63,7 @@ public class TestTournamentSeasonService extends SpringBootBaseTest {
     }
 
     @Test
-    public void isGetAllTournamentSeasonsById(){
+    public void isGetAllTournamentSeasonsById() {
         Integer tournamentId = 0;
         tournamentSeasonService.findByTournamentId(tournamentId);
     }

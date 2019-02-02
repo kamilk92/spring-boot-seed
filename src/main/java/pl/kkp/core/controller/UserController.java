@@ -13,11 +13,7 @@ import pl.kkp.core.db.entity.User;
 import pl.kkp.core.db.service.UserService;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
 public class UserController {
@@ -49,7 +45,8 @@ public class UserController {
     @GetMapping(path = "/users")
     public List<UserModel> getAllUsers() {
         Iterable<User> users = userService.findAll();
+        List<UserModel> userModels = iterableBeanMapper.map(users, UserModel.class);
 
-        return iterableBeanMapper.map(users, UserModel.class);
+        return userModels;
     }
 }

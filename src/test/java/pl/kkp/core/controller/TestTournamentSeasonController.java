@@ -1,6 +1,5 @@
 package pl.kkp.core.controller;
 
-import org.apache.coyote.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import pl.kkp.core.controller.model.BaseRsp;
 import pl.kkp.core.controller.model.TournamentModel;
 import pl.kkp.core.controller.model.TournamentSeasonModel;
-import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.action.TournamentSeasonBeginDateFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.TournamentSeasonTournamentExistValidator;

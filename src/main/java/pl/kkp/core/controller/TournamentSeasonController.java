@@ -12,8 +12,6 @@ import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.service.TournamentSeasonService;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 
-import javax.transaction.NotSupportedException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 

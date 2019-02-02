@@ -1,8 +1,6 @@
 package pl.kkp.core.db.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -29,7 +28,7 @@ public class User implements Serializable {
     private Boolean isEnabled;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<UserRole> roles;
+    private Collection<UserRole> roles;
 
     public User() {
     }
@@ -108,7 +107,7 @@ public class User implements Serializable {
         isEnabled = enabled;
     }
 
-    public List<UserRole> getRoles() {
+    public Collection<UserRole> getRoles() {
         return roles;
     }
 

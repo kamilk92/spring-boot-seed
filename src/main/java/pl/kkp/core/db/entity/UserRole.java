@@ -1,7 +1,5 @@
 package pl.kkp.core.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +23,10 @@ public class UserRole implements Serializable {
     private Role role;
 
     public UserRole() {
+    }
+
+    public UserRole(Role role) {
+        this.role = role;
     }
 
     public UserRole(User user, Role role) {

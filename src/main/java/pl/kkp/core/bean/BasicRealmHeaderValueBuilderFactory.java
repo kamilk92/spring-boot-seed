@@ -11,7 +11,8 @@ public class BasicRealmHeaderValueBuilderFactory {
     private String realmName;
 
     @Bean
-    public pl.kkp.core.security.basic.realm.BasicRealmHeaderValueBuilder basicRealmHeaderValueBuilder() throws Exception {
+    public pl.kkp.core.security.basic.realm.BasicRealmHeaderValueBuilder basicRealmHeaderValueBuilder()
+            throws Exception {
         return new pl.kkp.core.security.basic.realm.BasicRealmHeaderValueBuilder(realmName);
     }
 

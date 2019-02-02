@@ -1,6 +1,5 @@
 package pl.kkp.core.db.service;
 
-import org.assertj.core.api.OptionalIntAssert;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
-import pl.kkp.core.testing.asserations.ExceptionAssertions;
-import pl.kkp.core.testing.mocks.ServiceValidatorMocks;
 
 import java.util.Optional;
 

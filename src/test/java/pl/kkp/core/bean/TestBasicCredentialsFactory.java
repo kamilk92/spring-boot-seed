@@ -7,6 +7,7 @@ import pl.kkp.core.testing.SpringBootBaseTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+
 public class TestBasicCredentialsFactory extends SpringBootBaseTest {
 
     @Autowired

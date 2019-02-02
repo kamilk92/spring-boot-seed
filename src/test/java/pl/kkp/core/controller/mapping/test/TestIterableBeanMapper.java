@@ -7,8 +7,7 @@ import pl.kkp.core.controller.model.UserModel;
 import pl.kkp.core.db.entity.User;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +20,14 @@ public class TestIterableBeanMapper extends SpringBootBaseTest {
 
     @Test
     public void isMapIterable() {
-        String[] userNames = new String[]{
-                "user0",
-                "user1"
+        List<String> userNames = new ArrayList<String>() {
+            {
+                add("user0");
+                add("user1");
+            }
         };
 
-        List<User> users = Arrays.stream(userNames)
+        List<User> users = userNames.stream()
                 .map(User::new)
                 .collect(Collectors.toList());
 
@@ -36,6 +37,8 @@ public class TestIterableBeanMapper extends SpringBootBaseTest {
                 .size()
                 .isGreaterThanOrEqualTo(2);
 
-        assertThat(userModels).extracting("login").contains(userNames);
+        assertThat(userModels)
+                .extracting("login")
+                .containsAll(userNames);
     }
 }

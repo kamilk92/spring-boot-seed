@@ -2,7 +2,6 @@ package pl.kkp.core.db.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.kkp.core.controller.model.TournamentSeasonModel;
 import pl.kkp.core.db.entity.Tournament;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.repository.TournamentSeasonRepository;
@@ -23,12 +22,11 @@ public class TournamentSeasonService
     @Autowired
     public TournamentSeasonService(
             TournamentSeasonRepository entityRepository,
-            ServiceValidator<TournamentSeason> tournamentSeasonServiceValidator
-    ) {
+            ServiceValidator<TournamentSeason> tournamentSeasonServiceValidator) {
         super(entityRepository, tournamentSeasonServiceValidator);
     }
 
-    public List<TournamentSeason> findByTournamentId(Integer tournamentId){
+    public List<TournamentSeason> findByTournamentId(Integer tournamentId) {
         return entityRepository.findByTournamentId(tournamentId);
     }
 

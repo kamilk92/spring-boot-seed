@@ -1,6 +1,5 @@
 package pl.kkp.core.bean;
 
-import org.junit.Before;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.kkp.core.db.entity.Team;

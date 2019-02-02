@@ -7,6 +7,7 @@ import pl.kkp.core.db.entity.User;
 import pl.kkp.core.db.entity.UserRole;
 import pl.kkp.core.testing.TestJpa;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +47,7 @@ public class TestUserRepository extends TestJpa {
 
         User user = userRepository.findByLogin(login);
 
-        List<UserRole> userRoles = user.getRoles();
+        Collection<UserRole> userRoles = user.getRoles();
         assertThat(userRoles).isNotNull();
         assertThat(userRoles.size()).isEqualTo(2);
 

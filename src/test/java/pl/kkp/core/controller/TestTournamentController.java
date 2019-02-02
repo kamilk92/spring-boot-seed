@@ -14,11 +14,9 @@ import pl.kkp.core.db.service.validate.action.TournamentNameFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.TournamentNameUniqueValidator;
 import pl.kkp.core.security.basic.http.BasicCredentials;
 import pl.kkp.core.testing.TestRestController;
-import pl.kkp.core.testing.asserations.RestResponseAssertions;
 import pl.kkp.core.util.RandomStringGenerator;
 import pl.kkp.core.util.StringGenerator;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;

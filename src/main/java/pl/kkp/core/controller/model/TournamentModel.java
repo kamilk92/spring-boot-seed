@@ -1,7 +1,5 @@
 package pl.kkp.core.controller.model;
 
-import pl.kkp.core.db.entity.Tournament;
-
 public class TournamentModel {
     private Integer id;
     private String name;

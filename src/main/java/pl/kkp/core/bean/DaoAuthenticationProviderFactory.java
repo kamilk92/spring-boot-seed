@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class DaoAuthenticationProviderFactory {
     @Autowired
-    private PasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder bcryptPasswordEncoder;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -19,7 +19,7 @@ public class DaoAuthenticationProviderFactory {
     public DaoAuthenticationProvider daoAuthenticationProvider(
             DaoAuthenticationProviderFactory daoAuthenticationProviderFactory) throws Exception {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+        authenticationProvider.setPasswordEncoder(bcryptPasswordEncoder);
         authenticationProvider.setUserDetailsService(userDetailsService);
 
         return authenticationProvider;

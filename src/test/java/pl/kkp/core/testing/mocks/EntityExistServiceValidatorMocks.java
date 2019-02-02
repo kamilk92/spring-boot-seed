@@ -8,7 +8,6 @@ import pl.kkp.core.db.service.validate.exception.ValidationException;
 import static org.mockito.Mockito.when;
 import static pl.kkp.core.testing.mocks.FieldSetServiceValidatorMocks.mockDoCallRealFieldValidateMethod;
 import static pl.kkp.core.testing.mocks.ServiceValidatorMocks.buildValidationMessage;
-import static pl.kkp.core.testing.mocks.ServiceValidatorMocks.mockDoCallRealValidateMethod;
 
 public class EntityExistServiceValidatorMocks {
     public static String buildEntityExistValidationMessage(

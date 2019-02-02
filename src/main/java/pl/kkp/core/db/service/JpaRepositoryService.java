@@ -6,7 +6,6 @@ import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 
-import java.util.List;
 import java.util.Optional;
 
 public abstract class JpaRepositoryService<T, K extends Number, E extends CrudRepository<T, K>> {

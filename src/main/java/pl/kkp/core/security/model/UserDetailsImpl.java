@@ -2,6 +2,7 @@ package pl.kkp.core.security.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.kkp.core.db.entity.Role;
 import pl.kkp.core.db.entity.User;
 import pl.kkp.core.db.entity.UserRole;
 
@@ -52,7 +53,7 @@ public class UserDetailsImpl implements UserDetails {
         return user.getEnabled();
     }
 
-    private List<GrantedAuthority> listUserAuthorities() {
+    private List<Role> listUserAuthorities() {
         return user.getRoles()
                 .stream()
                 .map(UserRole::getRole)

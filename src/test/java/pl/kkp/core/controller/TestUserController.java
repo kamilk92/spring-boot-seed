@@ -77,9 +77,8 @@ public class TestUserController extends TestRestController {
         UserModel foundUser = response.getBody();
         assertThat(foundUser).isNotNull();
         assertThat(foundUser.getLogin()).isEqualTo(searchedLogin);
-        assertThat(foundUser.getRoles())
+        assertThat(foundUser.getAuthorities())
                 .isNotEmpty()
-                .flatExtracting("roles")
                 .extracting("authority")
                 .contains("ROLE_ADMIN", "ROLE_USER");
     }
@@ -99,6 +98,11 @@ public class TestUserController extends TestRestController {
                 .isGreaterThanOrEqualTo(1);
         assertThat(userModels).extracting("login")
                 .contains("test-admin");
+        userModels.forEach(singleUserModel -> {
+            assertThat(singleUserModel.getAuthorities())
+                    .extracting("authority")
+                    .isNotNull();
+        });
     }
 
     @Test

@@ -1,6 +1,5 @@
 package pl.kkp.core.db.service.validate.action;
 
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.FieldLengthTooLongException;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
-import pl.kkp.core.testing.asserations.ExceptionAssertions;
-import pl.kkp.core.testing.mocks.FieldLengthServiceValidatorMocks;
 import pl.kkp.core.util.RandomStringGenerator;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;

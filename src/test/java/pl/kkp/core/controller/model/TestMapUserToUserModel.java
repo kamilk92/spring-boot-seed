@@ -51,7 +51,7 @@ public class TestMapUserToUserModel extends SpringBootBaseTest {
 
         UserModel userModel = dozerBeanMapper.map(user, UserModel.class);
         assertThat(userModel).isNotNull();
-        assertThat(userModel.getRoles()).isNotEmpty();
+        assertThat(userModel.getAuthorities()).isNotEmpty();
     }
 
     private UserRole buildUserRole(String authority) {

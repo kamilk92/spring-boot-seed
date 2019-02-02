@@ -1,16 +1,15 @@
 package pl.kkp.core.controller.model;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class UserModel implements Serializable {
+public class UserModel {
     private Integer id;
     private String login;
     private String password;
     private String nick;
     private String email;
     private Boolean isEnabled;
-    private List<RoleModel> roles;
+    private List<RoleModel> authorities;
 
     public UserModel() {
     }
@@ -78,11 +77,11 @@ public class UserModel implements Serializable {
         isEnabled = enabled;
     }
 
-    public List<RoleModel> getRoles() {
-        return roles;
+    public List<RoleModel> getAuthorities() {
+        return authorities;
     }
 
-    public void setRoles(List<RoleModel> roles) {
-        this.roles = roles;
+    public void setAuthorities(List<RoleModel> authorities) {
+        this.authorities = authorities;
     }
 }
