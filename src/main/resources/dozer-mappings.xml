@@ -19,16 +19,22 @@
             <b>beginDate</b>
         </field>
     </mapping>
-    <!--<mapping>
+    <mapping type="one-way">
+        <class-a>pl.kkp.core.db.entity.UserRole</class-a>
+        <class-b>pl.kkp.core.controller.model.RoleModel</class-b>
+        <field>
+            <a>role.authority</a>
+            <b>authority</b>
+        </field>
+    </mapping>
+    <mapping type="one-way">
         <class-a>pl.kkp.core.db.entity.User</class-a>
         <class-b>pl.kkp.core.controller.model.UserModel</class-b>
-        <field-exclude>
+        <field>
             <a>roles</a>
-            <b>roles</b>
-        </field-exclude>
-        <field custom-converter="pl.kkp.core.controller.mapping.DozerUserRoleToRoleModelConverter">
-            <a>roles</a>
-            <b>roles</b>
+            <b>authorities</b>
+            <a-hint>pl.kkp.core.db.entity.UserRole</a-hint>
+            <b-hint>pl.kkp.core.controller.model.RoleModel</b-hint>
         </field>
-    </mapping>-->
+    </mapping>
 </mappings>
