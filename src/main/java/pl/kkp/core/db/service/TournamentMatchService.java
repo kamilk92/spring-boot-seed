@@ -6,8 +6,11 @@ import pl.kkp.core.db.entity.TournamentMatch;
 import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.db.repository.MatchRepository;
 import pl.kkp.core.db.service.validate.ServiceValidator;
+import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 
+import javax.transaction.NotSupportedException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -35,5 +38,17 @@ public class TournamentMatchService extends JpaRepositoryService<TournamentMatch
 
     public TournamentMatch save(TournamentMatch tournamentMatch) throws ValidationException {
         return validateAndSave(tournamentMatch);
+    }
+
+    @Transactional
+    public TournamentMatch updateMatchResult(TournamentMatch updatedMatch) throws ValidationException {
+        Integer matchId = updatedMatch.getId();
+        Integer homeScore = updatedMatch.getHomeScore();
+        Integer awayScore = updatedMatch.getAwayScore();
+        TournamentMatch match = new TournamentMatch(matchId, homeScore, awayScore);
+        serviceValidator.validate(match, ValidatorActionType.UPDATE);
+        entityRepository.updateMatchResult(matchId, homeScore, awayScore);
+
+        return entityRepository.findById(matchId).get();
     }
 }

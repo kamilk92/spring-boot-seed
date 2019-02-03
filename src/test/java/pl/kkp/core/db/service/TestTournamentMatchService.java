@@ -13,6 +13,9 @@ import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
+import javax.transaction.NotSupportedException;
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doNothing;
 
@@ -57,28 +60,44 @@ public class TestTournamentMatchService extends SpringBootBaseTest {
     public void isSaveNewTournamentMatch() throws ValidationException {
         doNothing().when(tournamentMatchServiceValidator).validate(match, ValidatorActionType.SAVE);
 
-        match.setHomeScore(2);
-        match.setAwayScore(1);
-
-        final int homeTeamId = 1;
-        Team homeTeam = new Team(homeTeamId);
-        match.setHomeTeam(homeTeam);
-
-        final int awayTeamId = 0;
-        Team awayTeam = new Team(awayTeamId);
-        match.setAwayTeam(awayTeam);
-
-        final int seasonId = 0;
-        TournamentSeason season = new TournamentSeason(seasonId);
-        match.setTournamentSeason(season);
-
         TournamentMatch savedMatch = tournamentMatchService.save(match);
 
         assertThat(savedMatch).isNotNull();
         assertThat(savedMatch.getId()).isNotNull();
     }
 
+    @Test
+    public void isUpdateMatchResult() throws ValidationException, NotSupportedException {
+        doNothing().when(tournamentMatchServiceValidator).validate(match, ValidatorActionType.UPDATE);
+
+        TournamentMatch savedMatch = tournamentMatchService.save(match);
+        assertThat(savedMatch).isNotNull();
+        assertThat(savedMatch.getId()).isNotNull();
+
+        final int matchId = savedMatch.getId();
+        final int homeScore = savedMatch.getHomeScore() + 3;
+        final int awayScore = savedMatch.getAwayScore() + 1;
+        TournamentMatch updatedMatch = new TournamentMatch(matchId, homeScore, awayScore);
+
+        updatedMatch = tournamentMatchService.updateMatchResult(updatedMatch);
+
+        assertThat(updatedMatch).isNotNull();
+        assertThat(updatedMatch.getId()).isEqualTo(matchId);
+        assertThat(updatedMatch.getHomeScore()).isEqualTo(homeScore);
+        assertThat(updatedMatch.getAwayScore()).isEqualTo(awayScore);
+    }
+
     private TournamentMatch setUpMatch() {
-        return new TournamentMatch();
+        final int homeScore = 2;
+        final int awayScore = 1;
+        final int homeTeamId = 1;
+        Team homeTeam = new Team(homeTeamId);
+        final int awayTeamId = 0;
+        Team awayTeam = new Team(awayTeamId);
+        final int seasonId = 0;
+        TournamentSeason season = new TournamentSeason(seasonId);
+        LocalDateTime beginDate = LocalDateTime.now();
+
+        return new TournamentMatch(beginDate, homeScore, awayScore, homeTeam, awayTeam, season);
     }
 }

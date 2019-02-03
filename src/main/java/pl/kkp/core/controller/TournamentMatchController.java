@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.kkp.core.controller.mapping.IterableBeanMapper;
@@ -44,11 +45,20 @@ public class TournamentMatchController {
         return iterableMapper.map(matches, TournamentMatchModel.class);
     }
 
-    @GetMapping(path = "season/{seasonId}/matches")
+    @GetMapping(path = "/season/{seasonId}/matches")
     public List<TournamentMatchModel> getAllTournamentSeasonMatches(@PathVariable Integer seasonId) throws NotSupportedException {
         List<TournamentMatch> matches = matchService.findByTournamentSeasonId(seasonId);
 
         return iterableMapper.map(matches, TournamentMatchModel.class);
+    }
+
+    @PutMapping(path = "/match/{id}")
+    public TournamentMatchModel updateMatch(@PathVariable Integer id, @RequestBody TournamentMatchModel matchModel)
+            throws ValidationException {
+        TournamentMatch match = mapper.map(matchModel, TournamentMatch.class);
+        match = matchService.updateMatchResult(match);
+
+        return mapper.map(match, TournamentMatchModel.class);
     }
 
 }

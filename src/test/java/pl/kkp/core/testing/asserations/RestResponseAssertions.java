@@ -18,6 +18,10 @@ public class RestResponseAssertions {
         assertThat(response.getStatusCode()).isEqualTo(status);
     }
 
+    public static void assertResponseStatusCodeForbidden(ResponseEntity response) {
+        assertResponseStatusCode(response, HttpStatus.FORBIDDEN);
+    }
+
     public static void assertResponseStatusCodeOk(ResponseEntity response) {
         assertResponseStatusCode(response, HttpStatus.OK);
     }

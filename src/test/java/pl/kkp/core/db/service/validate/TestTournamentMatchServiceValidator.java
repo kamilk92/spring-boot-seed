@@ -9,12 +9,15 @@ import pl.kkp.core.db.service.validate.action.TournamentMatchAwayTeamExistValida
 import pl.kkp.core.db.service.validate.action.TournamentMatchAwayTeamFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.TournamentMatchHomeTeamExistValidator;
 import pl.kkp.core.db.service.validate.action.TournamentMatchHomeTeamFieldSetValidator;
+import pl.kkp.core.db.service.validate.action.TournamentMatchIdFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.TournamentMatchSeasonExistValidator;
 import pl.kkp.core.db.service.validate.action.TournamentMatchSeasonIdFieldSetValidator;
 import pl.kkp.core.db.service.validate.exception.EntityNotExistException;
 import pl.kkp.core.db.service.validate.exception.FieldNotSetException;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
+
+import javax.transaction.NotSupportedException;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static pl.kkp.core.testing.asserations.ExceptionAssertions.assertExceptionMessage;
@@ -44,10 +47,14 @@ public class TestTournamentMatchServiceValidator extends SpringBootBaseTest {
     private TournamentMatchHomeTeamFieldSetValidator matchHomeTeamFieldSetValidator;
 
     @MockBean
+    private TournamentMatchIdFieldSetValidator matchIdFieldSetValidator;
+
+    @MockBean
     private TournamentMatchSeasonExistValidator matchSeasonExistValidator;
 
     @MockBean
     private TournamentMatchSeasonIdFieldSetValidator matchSeasonIdFieldSetValidator;
+
 
     @Before
     public void setUp() {
@@ -168,6 +175,19 @@ public class TestTournamentMatchServiceValidator extends SpringBootBaseTest {
 
         String expectedMsg = buildEntityExistValidationMessage(action, validatedField, validatedParameter);
         assertExceptionMessage(expectedMsg, EntityNotExistException.class, thrown);
+    }
+
+    @Test
+    public void isRaiseExceptionOnUpdateWhenMatchIdNotSet() throws ValidationException {
+        ValidatorActionType action = ValidatorActionType.UPDATE;
+        final String validatedField = TournamentMatchIdFieldSetValidator.VALIDATED_FILED;
+        final boolean isMatchIdSet = false;
+        mockDoCallIsFieldSetValidateMethod(matchIdFieldSetValidator, match, action, validatedField, isMatchIdSet);
+
+        Throwable thrown = catchThrowable(() -> tournamentMatchServiceValidator.validate(match, action));
+
+        String expectedMsg = buildFieldNotSetValidationMessage(action, validatedField);
+        assertExceptionMessage(expectedMsg, FieldNotSetException.class, thrown);
     }
 
     private TournamentMatch setUpMatch() {

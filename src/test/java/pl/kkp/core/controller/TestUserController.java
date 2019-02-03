@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static pl.kkp.core.testing.asserations.RestResponseAssertions.assertResponseStatusCodeForbidden;
 import static pl.kkp.core.testing.asserations.RestResponseAssertions.assertResponseStatusCodeOk;
 
 
@@ -30,6 +31,9 @@ public class TestUserController extends TestRestController {
 
     @Autowired
     private BasicCredentials adminCredentials;
+
+    @Autowired
+    private BasicCredentials usualUserCredentials;
 
     private RandomStringGenerator passwordGenerator;
 
@@ -66,6 +70,16 @@ public class TestUserController extends TestRestController {
     }
 
     @Test
+    public void isRaiseWhenUserCreatedByNotAuthorizedUser() {
+        String endpointPath = getEndpointPath("");
+        UserModel user = new UserModel();
+
+        ResponseEntity<?> response = authorizedPost(usualUserCredentials, endpointPath, user, Object.class);
+
+        assertResponseStatusCodeForbidden(response);
+    }
+
+    @Test
     public void isGetUserByLogin() {
         String searchedLogin = "test-admin";
         String loginQueryParam = String.format("?login=%s", searchedLogin);
@@ -87,7 +101,8 @@ public class TestUserController extends TestRestController {
     public void isGetAllUsers() {
         String endpointPath = getServerPath("/users");
         ParameterizedTypeReference<ArrayList<UserModel>> rspType =
-                new ParameterizedTypeReference<ArrayList<UserModel>>() {};
+                new ParameterizedTypeReference<ArrayList<UserModel>>() {
+                };
 
         ResponseEntity<ArrayList<UserModel>> response = authorizedGet(adminCredentials, endpointPath, rspType);
         assertResponseStatusCodeOk(response);
@@ -103,6 +118,15 @@ public class TestUserController extends TestRestController {
                     .extracting("authority")
                     .isNotNull();
         });
+    }
+
+    @Test
+    public void isGetAllUserReturn403HttpCodeWhenUserNotAuthorized() {
+        String endpointPath = getServerPath("/users");
+
+        ResponseEntity<?> response = authorizedGet(usualUserCredentials, endpointPath, Object.class);
+
+        assertResponseStatusCodeForbidden(response);
     }
 
     @Test
@@ -223,4 +247,5 @@ public class TestUserController extends TestRestController {
         RestResponseAssertions.assertReturn400HttpCodeWhenFieldTooShort(
                 action, response, validatedField, passLen, minPassLen);
     }
+
 }

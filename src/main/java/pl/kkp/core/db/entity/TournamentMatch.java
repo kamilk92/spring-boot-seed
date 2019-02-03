@@ -36,6 +36,16 @@ public class TournamentMatch {
     public TournamentMatch() {
     }
 
+    public TournamentMatch(Integer id) {
+        this.id = id;
+    }
+
+    public TournamentMatch(Integer id, Integer homeScore, Integer awayScore) {
+        this.id = id;
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+    }
+
     public TournamentMatch(LocalDateTime beginDate, Integer homeScore, Integer awayScore, Team homeTeam,
                            Team awayTeam, TournamentSeason tournamentSeason) {
         this.beginDate = beginDate;

@@ -34,6 +34,11 @@ public abstract class TestRestController extends SpringBootBaseTest {
         return restTemplate.authorizedPost(endpointPath, entity, responseClass, credentials);
     }
 
+    protected <T> ResponseEntity<T> authorizedPut(
+            BasicCredentials credentials, String endpointPath, Object entity, Class<T> responseClass) {
+        return restTemplate.authorizedPut(endpointPath, entity, responseClass, credentials);
+    }
+
     protected String getEndpointPath(String path) {
         return endpointPathBuilder.buildEndpointPath(path, portNumber);
     }

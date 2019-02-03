@@ -41,6 +41,17 @@ public class BasicAuthorizedTestRestTemplate extends TestRestTemplate {
         return authorizedRequest(url, method, entity, rspType, credentials);
     }
 
+    public <T> ResponseEntity<T> authorizedPut(
+            String url,
+            Object entity,
+            Class<T> rspType,
+            BasicCredentials credentials
+    ){
+        HttpMethod method = HttpMethod.PUT;
+
+        return authorizedRequest(url, method, entity, rspType, credentials);
+    }
+
     private <T> ResponseEntity<T> authorizedRequest(
             String url,
             HttpMethod method,

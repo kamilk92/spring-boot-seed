@@ -85,6 +85,26 @@ public class TestTournamentMatchController extends TestRestController {
                 .contains(0);
     }
 
+    @Test
+    public void isUpdateMatchResult(){
+        final int matchId = 0;
+        String endpointPath = String.format("/match/%d", matchId);
+        endpointPath = getEndpointPath(endpointPath);
+        final int homeScore = match.getHomeScore() + 1;
+        final int awayScore = match.getAwayScore() + 2;
+        TournamentMatch updatedMatch = new TournamentMatch(matchId, homeScore, awayScore);
+
+        ResponseEntity<TournamentMatch> response = authorizedPut(
+                adminCredentials, endpointPath, updatedMatch, TournamentMatch.class);
+
+        assertResponseStatusCodeOk(response);
+        updatedMatch = response.getBody();
+        assertThat(updatedMatch).isNotNull();
+        assertThat(updatedMatch.getId()).isEqualTo(matchId);
+        assertThat(updatedMatch.getHomeScore()).isEqualTo(homeScore);
+        assertThat(updatedMatch.getAwayScore()).isEqualTo(awayScore);
+    }
+
     private TournamentMatch setUpMatch() {
         final int homeTeamId = 1;
         Team homeTeam = new Team(homeTeamId);

@@ -10,6 +10,7 @@ import pl.kkp.core.db.service.validate.action.TournamentMatchAwayTeamExistValida
 import pl.kkp.core.db.service.validate.action.TournamentMatchAwayTeamFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.TournamentMatchHomeTeamExistValidator;
 import pl.kkp.core.db.service.validate.action.TournamentMatchHomeTeamFieldSetValidator;
+import pl.kkp.core.db.service.validate.action.TournamentMatchIdFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.TournamentMatchSeasonExistValidator;
 import pl.kkp.core.db.service.validate.action.TournamentMatchSeasonIdFieldSetValidator;
 import pl.kkp.core.db.service.validate.action.ValidatorAction;
@@ -31,7 +32,8 @@ public class TournamentMatchServiceValidatorFactory {
             TournamentMatchAwayTeamFieldSetValidator awayTeamFieldSetValidator,
             TournamentMatchAwayTeamExistValidator awayTeamExistValidator,
             TournamentMatchSeasonIdFieldSetValidator matchSeasonIdFieldSetValidator,
-            TournamentMatchSeasonExistValidator matchSeasonExistValidator
+            TournamentMatchSeasonExistValidator matchSeasonExistValidator,
+            TournamentMatchIdFieldSetValidator matchIdFieldSetValidator
     ) {
         this.actions = new LinkedHashMap<ValidatorActionType, List<? extends ValidatorAction<TournamentMatch>>>() {
             {
@@ -44,6 +46,12 @@ public class TournamentMatchServiceValidatorFactory {
                                 awayTeamExistValidator,
                                 matchSeasonIdFieldSetValidator,
                                 matchSeasonExistValidator
+                        )
+                );
+                put(
+                        ValidatorActionType.UPDATE,
+                        Arrays.asList(
+                                matchIdFieldSetValidator
                         )
                 );
             }
