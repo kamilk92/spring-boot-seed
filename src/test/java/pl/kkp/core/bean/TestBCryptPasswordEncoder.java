@@ -11,7 +11,7 @@ public class TestBCryptPasswordEncoder extends SpringBootBaseTest {
 
     @Test
     public void isEncryptPassword(){
-        String pass = "test-user";
+        String pass = "user";
         String encodedPass = passwordEncoder.encode(pass);
         System.out.println(encodedPass);
     }

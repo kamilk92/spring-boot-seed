@@ -9,7 +9,6 @@ import pl.kkp.core.db.service.validate.ServiceValidator;
 import pl.kkp.core.db.service.validate.ValidatorActionType;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 
-import javax.transaction.NotSupportedException;
 import javax.transaction.Transactional;
 import java.util.List;
 

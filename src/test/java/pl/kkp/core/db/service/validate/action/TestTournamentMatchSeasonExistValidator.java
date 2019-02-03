@@ -12,7 +12,6 @@ import pl.kkp.core.db.service.validate.exception.EntityNotExistException;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 import pl.kkp.core.testing.SpringBootBaseTest;
 
-import javax.persistence.EntityExistsException;
 import javax.transaction.NotSupportedException;
 import java.util.Optional;
 

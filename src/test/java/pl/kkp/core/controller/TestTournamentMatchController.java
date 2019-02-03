@@ -11,7 +11,6 @@ import pl.kkp.core.db.entity.TournamentSeason;
 import pl.kkp.core.security.basic.http.BasicCredentials;
 import pl.kkp.core.testing.TestRestController;
 
-import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.List;
 

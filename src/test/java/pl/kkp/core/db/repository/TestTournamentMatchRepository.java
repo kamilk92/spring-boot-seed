@@ -3,7 +3,6 @@ package pl.kkp.core.db.repository;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import pl.kkp.core.db.entity.Team;
 import pl.kkp.core.db.entity.TournamentMatch;
 import pl.kkp.core.db.entity.TournamentSeason;
