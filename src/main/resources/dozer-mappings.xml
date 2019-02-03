@@ -4,6 +4,23 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
     <mapping type="one-way">
+        <class-a>pl.kkp.core.controller.model.TournamentMatchModel</class-a>
+        <class-b>pl.kkp.core.db.entity.TournamentMatch</class-b>
+        <field custom-converter="pl.kkp.core.controller.mapping.DozerLocalDateTimeToLocalDateTimeConverter">
+            <a>beginDate</a>
+            <b>beginDate</b>
+        </field>
+    </mapping>
+    <mapping type="one-way">
+        <class-a>pl.kkp.core.db.entity.TournamentMatch</class-a>
+        <class-b>pl.kkp.core.controller.model.TournamentMatchModel</class-b>
+        <field custom-converter="pl.kkp.core.controller.mapping.DozerLocalDateTimeToLocalDateTimeConverter">
+            <a>beginDate</a>
+            <b>beginDate</b>
+        </field>
+    </mapping>
+
+    <mapping type="one-way">
         <class-a>pl.kkp.core.controller.model.TournamentSeasonModel</class-a>
         <class-b>pl.kkp.core.db.entity.TournamentSeason</class-b>
         <field custom-converter="pl.kkp.core.controller.mapping.DozerLocalDateTimeToLocalDateTimeConverter">

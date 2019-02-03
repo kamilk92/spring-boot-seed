@@ -38,7 +38,7 @@ public class TestIterableBeanMapper extends SpringBootBaseTest {
                 .isGreaterThanOrEqualTo(2);
 
         assertThat(userModels)
-                .extracting("getUserByLogin")
+                .extracting("login")
                 .containsAll(userNames);
     }
 }

@@ -45,8 +45,6 @@ public class UserController {
     @GetMapping(path = "/users")
     public List<UserModel> getAllUsers() {
         Iterable<User> users = userService.findAll();
-        List<UserModel> userModels = iterableBeanMapper.map(users, UserModel.class);
-
-        return userModels;
+        return iterableBeanMapper.map(users, UserModel.class);
     }
 }
