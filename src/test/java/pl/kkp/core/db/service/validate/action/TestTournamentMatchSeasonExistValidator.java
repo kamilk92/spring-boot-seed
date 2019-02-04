@@ -31,7 +31,7 @@ public class TestTournamentMatchSeasonExistValidator extends SpringBootBaseTest 
     private TournamentSeasonRepository tournamentSeasonRepository;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         match = setUpMatch();
     }
 
@@ -60,7 +60,7 @@ public class TestTournamentMatchSeasonExistValidator extends SpringBootBaseTest 
         assertExceptionMessage(expectedMsg, EntityNotExistException.class, thrown);
     }
 
-    private TournamentMatch setUpMatch(){
+    private TournamentMatch setUpMatch() {
         return new TournamentMatch();
     }
 

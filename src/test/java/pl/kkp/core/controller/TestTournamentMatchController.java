@@ -56,8 +56,7 @@ public class TestTournamentMatchController extends TestRestController {
         endpointPath = getEndpointPath(endpointPath);
 
         ParameterizedTypeReference<List<TournamentMatch>> rspType =
-                new ParameterizedTypeReference<List<TournamentMatch>>() {
-                };
+                new ParameterizedTypeReference<List<TournamentMatch>>() {};
         ResponseEntity<List<TournamentMatch>> response = authorizedGet(
                 adminCredentials, endpointPath, rspType);
 

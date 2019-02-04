@@ -119,12 +119,12 @@ public class TestTournamentMatchServiceValidator extends SpringBootBaseTest {
     @Test
     public void isRaiseExceptionWhenAwayTeamNotExist() throws ValidationException {
         ValidatorActionType action = ValidatorActionType.SAVE;
-        String validatedField = TournamentMatchAwayTeamExistValidator.VALIDATED_FIELD;
-        String validatedParameter = TournamentMatchAwayTeamExistValidator.VALIDATED_PARAMETER;
         mockDoNothingOnValidateMethod(matchAwayTeamFieldSetValidator, match, action);
         mockDoNothingOnValidateMethod(matchAwayTeamExistValidator, match, action);
         mockDoNothingOnValidateMethod(matchAwayTeamFieldSetValidator, match, action);
         final boolean isAwayTeamExist = false;
+        String validatedParameter = TournamentMatchAwayTeamExistValidator.VALIDATED_PARAMETER;
+        String validatedField = TournamentMatchAwayTeamExistValidator.VALIDATED_FIELD;
         mockDoCallIsEntityExistValidateMethod(
                 matchAwayTeamExistValidator, match, action, validatedField, validatedParameter, isAwayTeamExist);
         mockDoNothingOnValidateMethod(matchSeasonIdFieldSetValidator, match, action);

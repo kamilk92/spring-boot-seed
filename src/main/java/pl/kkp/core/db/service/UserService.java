@@ -33,7 +33,7 @@ public class UserService extends JpaRepositoryService<User, Integer, UserReposit
         return entityRepository.save(user);
     }
 
-    private void encodePassword(User user){
+    private void encodePassword(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
     }

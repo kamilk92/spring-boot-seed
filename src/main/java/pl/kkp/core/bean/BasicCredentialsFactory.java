@@ -29,7 +29,7 @@ public class BasicCredentialsFactory {
 
     @Bean
     @Scope(scopeName = BeanDefinition.SCOPE_PROTOTYPE)
-    public BasicCredentials usualUserCredentials(){
+    public BasicCredentials usualUserCredentials() {
         return new BasicCredentials(testUsualUserName, testUsualUserPassword);
     }
 }

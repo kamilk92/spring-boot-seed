@@ -14,9 +14,9 @@ public interface MatchRepository extends CrudRepository<TournamentMatch, Integer
 
     @Modifying(clearAutomatically = true)
     @Query(
-            "update TournamentMatch match " +
-                    "set match.homeScore=:homeScore, match.awayScore=:awayScore " +
-                    "where match.id=:matchId"
+            "update TournamentMatch match "
+                    + "set match.homeScore=:homeScore, match.awayScore=:awayScore "
+                    + "where match.id=:matchId"
     )
     void updateMatchResult(
             @Param("matchId") Integer matchId,

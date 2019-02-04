@@ -14,7 +14,6 @@ import pl.kkp.core.db.entity.TournamentMatch;
 import pl.kkp.core.db.service.TournamentMatchService;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
 
-import javax.transaction.NotSupportedException;
 import java.util.List;
 
 @RestController
@@ -46,7 +45,7 @@ public class TournamentMatchController {
     }
 
     @GetMapping(path = "/season/{seasonId}/matches")
-    public List<TournamentMatchModel> getAllTournamentSeasonMatches(@PathVariable Integer seasonId) throws NotSupportedException {
+    public List<TournamentMatchModel> getAllTournamentSeasonMatches(@PathVariable Integer seasonId) {
         List<TournamentMatch> matches = matchService.findByTournamentSeasonId(seasonId);
 
         return iterableMapper.map(matches, TournamentMatchModel.class);

@@ -10,7 +10,7 @@ import pl.kkp.core.db.service.validate.ValidatorActionType;
 import java.util.Optional;
 
 @Component
-public class TournamentMatchSeasonExistValidator extends EntityExistServiceValidator<TournamentMatch>{
+public class TournamentMatchSeasonExistValidator extends EntityExistServiceValidator<TournamentMatch> {
 
     public static final String VALIDATED_FIELD = "tournamentMatch.tournamentSeason";
     public static final String VALIDATED_PARAMETER = "id";

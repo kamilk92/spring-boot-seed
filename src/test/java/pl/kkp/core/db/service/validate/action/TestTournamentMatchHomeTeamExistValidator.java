@@ -30,7 +30,7 @@ public class TestTournamentMatchHomeTeamExistValidator extends SpringBootBaseTes
     private TeamRepository teamRepository;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         match = setUpMatch();
     }
 
@@ -46,7 +46,7 @@ public class TestTournamentMatchHomeTeamExistValidator extends SpringBootBaseTes
     }
 
     @Test
-    public void isRaiseExceptionWhenMatchHomeTeamNotExist(){
+    public void isRaiseExceptionWhenMatchHomeTeamNotExist() {
         Integer homeTeamId = 0;
         Team homeTeam = new Team(homeTeamId);
         when(teamRepository.findById(homeTeamId)).thenReturn(Optional.empty());
@@ -59,7 +59,7 @@ public class TestTournamentMatchHomeTeamExistValidator extends SpringBootBaseTes
         assertExceptionMessage(expectedMsg, EntityNotExistException.class, thrown);
     }
 
-    private TournamentMatch setUpMatch(){
+    private TournamentMatch setUpMatch() {
         return new TournamentMatch();
     }
 

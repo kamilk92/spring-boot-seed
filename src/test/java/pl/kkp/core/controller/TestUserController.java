@@ -101,8 +101,7 @@ public class TestUserController extends TestRestController {
     public void isGetAllUsers() {
         String endpointPath = getServerPath("/users");
         ParameterizedTypeReference<ArrayList<UserModel>> rspType =
-                new ParameterizedTypeReference<ArrayList<UserModel>>() {
-                };
+                new ParameterizedTypeReference<ArrayList<UserModel>>() {};
 
         ResponseEntity<ArrayList<UserModel>> response = authorizedGet(adminCredentials, endpointPath, rspType);
         assertResponseStatusCodeOk(response);
