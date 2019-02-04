@@ -1,5 +1,3 @@
-Tournament management simple restful API.
-=========================================
 
 **1. Description.**
 
@@ -27,8 +25,6 @@ created during application start.
 Path: /user
 Method: post
 Payload:
-
-.. example-code::
 
   .. code-block:: JSON
 
