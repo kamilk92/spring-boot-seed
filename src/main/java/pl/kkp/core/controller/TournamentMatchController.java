@@ -33,7 +33,7 @@ public class TournamentMatchController {
     public TournamentMatchModel createTournamentMatch(
             @PathVariable Integer seasonId, @RequestBody TournamentMatchModel matchModel) throws ValidationException {
         TournamentMatch match = mapper.map(matchModel, TournamentMatch.class);
-        match = matchService.save(match);
+        match = matchService.save(match, seasonId);
 
         return mapper.map(match, TournamentMatchModel.class);
     }
