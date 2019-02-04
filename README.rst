@@ -33,17 +33,17 @@ created during application start.
     	"password": "user_password",
     	"email": "user@email.com"
     }
-
+|
 3.2. Get all users.
 
 | Path: /users
 | Method: get
-
+|
 3.3 Find user by login.
 
 | Path: /user?login=<username>
 | Method: get
-
+|
 3.4. Create tournament.
 
 | Path: /tournament
@@ -57,16 +57,17 @@ created during application start.
       "decription": "tournament_description"
     }
 
+|
 3.5. Find tournament by id.
 
 | Path: /tournament/{id}
 | Method: get
-
+|
 3.6. Get all tournaments.
 
 | Path: /tournaments
 | Method: get
-
+|
 3.7. Create new team.
 
 | Path: /team
@@ -79,6 +80,7 @@ created during application start.
       "name": "team_name"
     }
 
+|
 3.8. Create new tournament season.
 
 | Path: /tournament/{tournamentId}/season
@@ -91,11 +93,12 @@ created during application start.
       "beginDate": "yyyy-MM-ddTHH:mm:ss"
     }
 
+|
 3.9. Get all tournament seasons.
 
 | Path: /tournament/{tournamentId}/seasons
 | Method: get
-
+|
 3.10. Create new tournament match.
 
 | Path: /season/{seasonId}/match
@@ -116,12 +119,14 @@ created during application start.
       }
     }
 
+|
 3.11. Get all tournament matches.
 
 | Path: season/{seasonId}/matches
 | Method: get
-
+|
 3.12. Get all matches.
 
 | Path: /matches
 | Method: get
+|
