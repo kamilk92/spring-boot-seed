@@ -28,7 +28,7 @@ Path: /user
 Method: post
 Payload:
 
-.. code-block:: json
+.. code-block:: JSON
 
     {
     	"login": "user_login",
