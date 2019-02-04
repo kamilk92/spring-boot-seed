@@ -18,9 +18,15 @@ For store data was used MySQL database. MySQL database instance
 should be running on port number 3306. Database will be automatically
 created during application start.
 
-**3. Available requests.**
+**3. Build and run**
 
-**3.1. Create user.**
+Build and run with below command.
+
+*gradle build bootRun*
+
+**4. Available requests.**
+
+**4.1. Create user.**
 
 | Path: /user
 | Method: post
@@ -34,17 +40,17 @@ created during application start.
     	"email": "user@email.com"
     }
 |
-**3.2. Get all users.**
+**4.2. Get all users.**
 
 | Path: /users
 | Method: get
 |
-**3.3 Find user by login.**
+**4.3 Find user by login.**
 
 | Path: /user?login=<username>
 | Method: get
 |
-**3.4. Create tournament.**
+**4.4. Create tournament.**
 
 | Path: /tournament
 | Method: post
@@ -58,17 +64,17 @@ created during application start.
     }
 
 |
-**3.5. Find tournament by id.**
+**4.5. Find tournament by id.**
 
 | Path: /tournament/{id}
 | Method: get
 |
-**3.6. Get all tournaments.**
+**4.6. Get all tournaments.**
 
 | Path: /tournaments
 | Method: get
 |
-**3.7. Create new team.**
+**4.7. Create new team.**
 
 | Path: /team
 | Method: post
@@ -81,7 +87,7 @@ created during application start.
     }
 
 |
-**3.8. Create new tournament season.**
+**4.8. Create new tournament season.**
 
 | Path: /tournament/{tournamentId}/season
 | Method: post
@@ -94,12 +100,12 @@ created during application start.
     }
 
 |
-**3.9. Get all tournament seasons.**
+**4.9. Get all tournament seasons.**
 
 | Path: /tournament/{tournamentId}/seasons
 | Method: get
 |
-**3.10. Create new tournament match.**
+**4.10. Create new tournament match.**
 
 | Path: /season/{seasonId}/match
 | Method: post
@@ -120,12 +126,12 @@ created during application start.
     }
 
 |
-**3.11. Get all tournament matches.**
+**4.11. Get all tournament matches.**
 
 | Path: season/{seasonId}/matches
 | Method: get
 |
-**3.12. Get all matches.**
+**4.12. Get all matches.**
 
 | Path: /matches
 | Method: get
