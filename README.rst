@@ -29,8 +29,9 @@ Method: post
 Payload:
 
 .. code-block:: json
-{
-	"login": "user_login",
-	"password": "user_password",
-	"email": "user@email.com"
-}
+
+    {
+    	"login": "user_login",
+    	"password": "user_password",
+    	"email": "user@email.com"
+    }
