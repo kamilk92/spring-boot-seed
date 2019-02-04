@@ -63,7 +63,7 @@ public class TestUserController extends TestRestController {
         assertThat(createdUser).isNotNull();
         assertThat(createdUser.getId()).isNotNull();
         assertThat(createdUser.getLogin()).isEqualTo(login);
-        assertThat(createdUser.getPassword()).isEqualTo(pass);
+        assertThat(createdUser.getPassword()).isNotNull();
         assertThat(createdUser.getNick()).isEqualTo(nick);
         assertThat(createdUser.getEmail()).isEqualTo(email);
         assertThat(createdUser.getEnabled()).isEqualTo(true);

@@ -7,6 +7,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.kkp.core.db.entity.User;
 import pl.kkp.core.db.repository.UserRepository;
 import pl.kkp.core.db.service.validate.exception.ValidationException;
@@ -20,8 +21,12 @@ import static org.mockito.Mockito.when;
 
 
 public class TestUserService extends SpringBootBaseTest {
+
     @Mock
     private User mockUser;
+
+    @MockBean
+    private BCryptPasswordEncoder passwordEncoder;
 
     private User user;
 
@@ -54,6 +59,8 @@ public class TestUserService extends SpringBootBaseTest {
     @Test
     public void isUserSaveNewUser() throws ValidationException {
         when(userRepository.save(any(User.class))).thenReturn(mockUser);
+        String encodedPass = "encodePassValue";
+        when(passwordEncoder.encode(user.getPassword())).thenReturn(encodedPass);
 
         User savedUser = userService.save(user);
 
@@ -65,9 +72,11 @@ public class TestUserService extends SpringBootBaseTest {
         User calledUser = userCaptor.getValue();
         assertThat(calledUser).isInstanceOf(User.class);
         assertThat(calledUser.getLogin()).isEqualTo(user.getLogin());
-        assertThat(calledUser.getPassword()).isEqualTo(user.getPassword());
+        assertThat(calledUser.getPassword()).isEqualTo(encodedPass);
         assertThat(calledUser.getEmail()).isEqualTo(user.getEmail());
         assertThat(calledUser.getEnabled()).isEqualTo(true);
+        String plainPassword = user.getPassword();
+        verify(passwordEncoder, times(1)).encode(plainPassword);
     }
 
     public User setupUser() {
