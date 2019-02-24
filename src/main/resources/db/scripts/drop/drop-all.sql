@@ -1,0 +1,7 @@
+DROP TABLE tournament_match IF EXISTS;
+DROP TABLE tournament_season IF EXISTS;
+DROP TABLE tourname1nt IF EXISTS;
+DROP TABLE team IF EXISTS;
+DROP TABLE user_role IF EXISTS;
+DROP TABLE role IF EXISTS;
+DROP TABLE user IF EXISTS;

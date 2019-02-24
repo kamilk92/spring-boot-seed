@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: insertTestDataChangeSet
+      author: kamil.kurek
+      context: test
+      changes:
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/test/user.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/production/role.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/test/userRole.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/test/team.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/test/tournament.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/test/tournamentSeason.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/test/tournamentMatch.sql
+          relativeToChangelogFile: true
+      rollback:
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/delete/delete-all.sql
+          relativeToChangelogFile: true

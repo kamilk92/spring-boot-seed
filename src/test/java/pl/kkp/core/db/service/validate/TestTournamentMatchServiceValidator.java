@@ -139,12 +139,12 @@ public class TestTournamentMatchServiceValidator extends SpringBootBaseTest {
     @Test
     public void isRaiseExceptionWhenMatchSeasonFieldNotSet() throws ValidationException {
         ValidatorActionType action = ValidatorActionType.SAVE;
-        String validatedField = TournamentMatchSeasonIdFieldSetValidator.VALIDATED_FILED;
         mockDoNothingOnValidateMethod(matchAwayTeamFieldSetValidator, match, action);
         mockDoNothingOnValidateMethod(matchAwayTeamExistValidator, match, action);
         mockDoNothingOnValidateMethod(matchAwayTeamFieldSetValidator, match, action);
         mockDoNothingOnValidateMethod(matchAwayTeamExistValidator, match, action);
         final boolean isMatchSeasonSet = false;
+        String validatedField = TournamentMatchSeasonIdFieldSetValidator.VALIDATED_FILED;
         mockDoCallIsFieldSetValidateMethod(
                 matchSeasonIdFieldSetValidator, match, action, validatedField, isMatchSeasonSet);
         mockDoNothingOnValidateMethod(matchSeasonExistValidator, match, action);

@@ -4,6 +4,7 @@ buildscript {
         dozerVersion = "5.5.1"
         dozerJdk8SupportVersion = "1.0.5"
         h2Version = "1.4.194"
+        liquibaseVersion = "3.6.3"
         mysqlConnectorVersion = "8.0.14"
         springSecurityVersion = "5.1.3.RELEASE"
         springVersion = "2.1.2.RELEASE"
@@ -73,6 +74,7 @@ dependencies {
 //    compile group: "org.springframework.boot", name: "spring-boot-devtools", version: "$springVersion"
     compile group: "org.springframework.boot", name: "spring-boot-starter-security", version: "$springVersion"
     compile group: "mysql", name: "mysql-connector-java", version: "$mysqlConnectorVersion"
+    compile group: "org.liquibase", name: "liquibase-core", version: "$liquibaseVersion"
 
     testCompile group: "org.assertj", name: "assertj-core", version: "$assertJVersion"
     testCompile group: "org.springframework.boot", name: "spring-boot-starter-test", version: "$springVersion"

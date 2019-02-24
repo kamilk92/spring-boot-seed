@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: createProductionDataChangeSet
+      author: kamil.kurek
+      context: production
+      changes:
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/production/user.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/production/role.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/production/userRole.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/production/team.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/production/tournament.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/production/tournamentSeason.sql
+          relativeToChangelogFile: true
+      - sqlFile:
+          context: production
+          dbms: h2, mysql
+          encoding: utf8
+          path: ../scripts/insert/production/tournamentMatch.sql
+          relativeToChangelogFile: true
+      rollback:
+        - sqlFile:
+            dbms: h2, mysql
+            encoding: utf8
+            path: ../scripts/delete/delete-all.sql
+            relativeToChangelogFile: true

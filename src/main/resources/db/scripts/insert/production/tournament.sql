@@ -1,0 +1,1 @@
+INSERT INTO tournament(id, name, description) VALUES(1, 'Premier League', 'First England league');

@@ -36,7 +36,7 @@ public class TestTournamentMatchAwayTemFieldSetValidator extends SpringBootBaseT
     }
 
     @Test
-    public void isRaiseWhenAwayTeamNotSet(){
+    public void isRaiseWhenAwayTeamNotSet() {
         Team awayTeam = new Team();
         match.setAwayTeam(awayTeam);
         ValidatorActionType action = ValidatorActionType.SAVE;

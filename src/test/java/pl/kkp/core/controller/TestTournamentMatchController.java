@@ -56,7 +56,7 @@ public class TestTournamentMatchController extends TestRestController {
         endpointPath = getEndpointPath(endpointPath);
 
         ParameterizedTypeReference<List<TournamentMatch>> rspType =
-                new ParameterizedTypeReference<List<TournamentMatch>>() {};
+                new ParameterizedTypeReference<List<TournamentMatch>>(){};
         ResponseEntity<List<TournamentMatch>> response = authorizedGet(
                 adminCredentials, endpointPath, rspType);
 
@@ -72,7 +72,7 @@ public class TestTournamentMatchController extends TestRestController {
         String endpointPath = getEndpointPath("/matches");
 
         ParameterizedTypeReference<List<TournamentMatch>> rspType =
-                new ParameterizedTypeReference<List<TournamentMatch>>() {};
+                new ParameterizedTypeReference<List<TournamentMatch>>()g{};
         ResponseEntity<List<TournamentMatch>> response = authorizedGet(
                 adminCredentials, endpointPath, rspType);
 
@@ -84,21 +84,34 @@ public class TestTournamentMatchController extends TestRestController {
     }
 
     @Test
-    public void isUpdateMatchResult(){
-        final int matchId = 0;
-        String endpointPath = String.format("/match/%d", matchId);
+    public void isUpdateMatchResult() {
+        final int seasonId = 1;
+        String endpointPath = String.format("/season/%d/match", seasonId);
         endpointPath = getEndpointPath(endpointPath);
-        final int homeScore = match.getHomeScore() + 1;
-        final int awayScore = match.getAwayScore() + 2;
-        TournamentMatch updatedMatch = new TournamentMatch(matchId, homeScore, awayScore);
 
-        ResponseEntity<TournamentMatch> response = authorizedPut(
-                adminCredentials, endpointPath, updatedMatch, TournamentMatch.class);
+        ResponseEntity<TournamentMatch> response = authorizedPost(
+                adminCredentials, endpointPath, match, TournamentMatch.class);
 
         assertResponseStatusCodeOk(response);
-        updatedMatch = response.getBody();
+
+        TournamentMatch matchToUpdate = response.getBody();
+        assertThat(matchToUpdate).isNotNull();
+        assertThat(matchToUpdate.getId()).isNotNull();
+
+        endpointPath = String.format("/match/%d", matchToUpdate.getId());
+        endpointPath = getEndpointPath(endpointPath);
+        final int homeScore = matchToUpdate.getHomeScore() + 1;
+        final int awayScore = matchToUpdate.getAwayScore() + 2;
+        matchToUpdate.setHomeScore(homeScore);
+        matchToUpdate.setAwayScore(awayScore);
+
+        response = authorizedPut(adminCredentials, endpointPath, matchToUpdate, TournamentMatch.class);
+
+        assertResponseStatusCodeOk(response);
+
+        TournamentMatch updatedMatch = response.getBody();
         assertThat(updatedMatch).isNotNull();
-        assertThat(updatedMatch.getId()).isEqualTo(matchId);
+        assertThat(updatedMatch.getId()).isEqualTo(matchToUpdate.getId());
         assertThat(updatedMatch.getHomeScore()).isEqualTo(homeScore);
         assertThat(updatedMatch.getAwayScore()).isEqualTo(awayScore);
     }

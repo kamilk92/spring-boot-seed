@@ -1,0 +1,1 @@
+INSERT INTO tournament_season(id, begin_date, is_open, tournament_id) VALUES(1, '2018-10-08', 1, 1);
